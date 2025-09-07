@@ -22,6 +22,7 @@ drake==1.39.0
 eigenpy==3.10.3
 etils==1.12.2
 evdev==1.9.2
+example-robot-data==4.3.0
 exceptiongroup==1.3.0
 executing==2.2.0
 farama-notifications==0.0.4
@@ -35,10 +36,12 @@ gym-notices==0.0.8
 gymnasium==1.1.1
 identify==2.6.12
 importlib-resources==6.5.2
+ipdb==0.13.13
 ipython==8.36.0
 jedi==0.19.2
 jinja2==3.1.6
 jupyterlab-urdf==0.4.0
+kdl-parser-jvytee @ file:///home/dar/mujoco-bin/mujoco-learning/kdl_parser
 kiwisolver==1.4.8
 lxml==5.4.0
 markdown==3.8
@@ -83,6 +86,7 @@ psutil==7.0.0
 ptyprocess==0.7.0
 pure-eval==0.2.3
 pydot==4.0.0
+pygame==2.6.1
 pygments==2.19.1
 pyngrok==7.2.8
 pynput==1.8.1

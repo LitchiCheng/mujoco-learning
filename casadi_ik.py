@@ -70,16 +70,17 @@ class Kinematics:
             self.var_q,
             self.model.upperPositionLimit)
         )
-        self.opti.minimize(10 * self.translational_cost + 1.0*self.rotation_cost + 0.0 * self.regularization_cost + 0.0 * self.smooth_cost)
+        self.opti.minimize(10.0 * self.translational_cost + 0.1*self.rotation_cost + 0.0 * self.regularization_cost + 0.1 * self.smooth_cost)
 
         ##### IPOPT #####
         opts = {
             'ipopt':{
                 'print_level': 0,
-                'max_iter': 20,
+                'max_iter': 500,
                 'tol': 1e-4,
+                # 'hessian_approximation':"limited-memory"
             },
-            'print_time':True,# print or not
+            'print_time':False,# print or not
             'calc_lam_p':False # https://github.com/casadi/casadi/wiki/FAQ:-Why-am-I-getting-%22NaN-detected%22in-my-optimization%3F
         }
         self.opti.solver("ipopt", opts)
