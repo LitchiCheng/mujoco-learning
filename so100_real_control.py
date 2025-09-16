@@ -6,39 +6,69 @@ import math
 import zmq
 import json
 
-# # ZMQ配置
-# ZMQ_IP = "127.0.0.1"  # 绑定到所有可用网络接口
-# ZMQ_PORT = "5555"
-# context = zmq.Context()
-# socket = context.socket(zmq.PUB)
-# socket.bind(f"tcp://{ZMQ_IP}:{ZMQ_PORT}")
+class ZMQCommunicator:
+    """ZMQ通信封装类，负责处理与外部的通信"""
+    
+    def __init__(self, ipc_path="ipc:///tmp/robot_arm_comm.ipc"):
+        """初始化ZMQ通信
+        
+        Args:
+            ipc_path: IPC通信路径，默认为"ipc:///tmp/robot_arm_comm.ipc"
+        """
+        self.ipc_path = ipc_path
+        self.context = None
+        self.socket = None
+        self._initialize()
+    
+    def _initialize(self):
+        """初始化ZMQ上下文和socket"""
+        try:
+            self.context = zmq.Context()
+            self.socket = self.context.socket(zmq.PUB)
+            self.socket.bind(self.ipc_path)
+            print(f"ZMQ发布者启动，绑定到：{self.ipc_path}")
+        except zmq.ZMQError as e:
+            print(f"ZMQ初始化失败: {e}")
+            self.cleanup()
+    
+    def send_data(self, joint_pos, control_mode="position"):
+        """发送关节位置数据
+        
+        Args:
+            joint_pos: 关节位置数据（角度）
+            control_mode: 控制模式，默认为"position"
+        """
+        if not self.socket:
+            print("ZMQ socket未初始化，无法发送数据")
+            return
+            
+        try:
+            # 数据封装为JSON
+            data = {
+                "joint_pos": joint_pos,
+                "timestamp": time.time(),
+                "control_mode": control_mode
+            }
+            # 转换为JSON字符串并发布
+            json_data = json.dumps(data)
+            self.socket.send_string(json_data)
+        except zmq.ZMQError as e:
+            print(f"发送数据失败: {e}")
+    
+    def cleanup(self):
+        """清理ZMQ资源"""
+        if self.socket:
+            self.socket.close()
+        if self.context:
+            self.context.term()
+        print("ZMQ资源已释放")
 
-# print(f"仿真端发布者启动，绑定到：tcp://{ZMQ_IP}:{ZMQ_PORT}")
-
-# ZMQ IPC配置 - 使用进程间通信协议
-ZMQ_IPC_PATH = "ipc:///tmp/robot_arm_comm.ipc"  # IPC文件路径
-context = zmq.Context()
-socket = context.socket(zmq.PUB)
-socket.bind(ZMQ_IPC_PATH)  # 绑定到IPC路径
-
-print(f"仿真端发布者启动，绑定到：{ZMQ_IPC_PATH}")
-
-def send_data_to_robot(processed_q_deg):
-    """将预处理后的关节角通过ZMQ发布"""
-    # 数据封装为JSON
-    data = {
-        "joint_pos": processed_q_deg,  # 关节角（角度）
-        "timestamp": time.time(),      # 时间戳（用于同步）
-        "control_mode": "position"     # 控制模式（位置控制/速度控制）
-    }
-    # 转换为JSON字符串并发布
-    json_data = json.dumps(data)
-    socket.send_string(json_data)
 
 class Test(mujoco_viewer.CustomViewer):
-    def __init__(self, path):
+    def __init__(self, path, communicator):
         super().__init__(path, 1.5, azimuth=135, elevation=-30)
         self.path = path
+        self.communicator = communicator  # 注入通信器实例
     
     def runBefore(self):
         pass
@@ -46,15 +76,20 @@ class Test(mujoco_viewer.CustomViewer):
     def runFunc(self):
         sim_joint_rad = self.data.qpos[:6].copy()
         sim_joint_deg = [math.degrees(q) for q in sim_joint_rad]
-        send_data_to_robot(sim_joint_deg)
+        self.communicator.send_data(sim_joint_deg)  # 使用通信器发送数据
         time.sleep(0.01)  # 控制发送频率
 
-try:
-    test = Test("./model/trs_so_arm100/scene.xml")
-    test.run_loop()
-except KeyboardInterrupt:
-    print("仿真程序被用户中断")
-finally:
-    # 关闭ZMQ连接
-    socket.close()
-    context.term()
+
+if __name__ == "__main__":
+    # 创建通信器实例
+    zmq_communicator = ZMQCommunicator()
+    
+    try:
+        # 将通信器实例传入Test类
+        test = Test("./model/trs_so_arm100/scene.xml", zmq_communicator)
+        test.run_loop()
+    except KeyboardInterrupt:
+        print("仿真程序被用户中断")
+    finally:
+        # 清理通信资源
+        zmq_communicator.cleanup()
