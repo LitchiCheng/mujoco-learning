@@ -19,13 +19,13 @@
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
     <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
-    <body mocap="true" name="mocap" pos="0.2 0.3 0.2">
+    <!-- <body mocap="true" name="mocap" pos="0.2 0.3 0.2">
         <site pos="0 0 0.1" size="0.005 0.005 0.1" type="box" name="mocap1" rgba="0 0 1 1"/>
         <site pos="0 0.1 0" size="0.005 0.1 0.005" type="box" name="mocap2" rgba="0 1 0 1"/>
         <site pos="0.1 0 0" size="0.1 0.005 0.005" type="box" name="mocap3" rgba="1 0 0 1"/>
-    </body>
+    </body> -->
   </worldbody>
-  <equality>
+  <!-- <equality>
         <weld body1="mocap" body2="hand"/>
-  </equality>
+  </equality> -->
 </mujoco>
