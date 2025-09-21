@@ -31,7 +31,7 @@ class ZMQCommunicator:
             print(f"ZMQ初始化失败: {e}")
             self.cleanup()
     
-    def send_data(self, joint_pos, control_mode="position"):
+    def send_data(self, actions:dict):
         """发送关节位置数据
         
         Args:
@@ -43,14 +43,8 @@ class ZMQCommunicator:
             return
             
         try:
-            # 数据封装为JSON
-            data = {
-                "joint_pos": joint_pos,
-                "timestamp": time.time(),
-                "control_mode": control_mode
-            }
             # 转换为JSON字符串并发布
-            json_data = json.dumps(data)
+            json_data = json.dumps(actions)
             self.socket.send_string(json_data)
         except zmq.ZMQError as e:
             print(f"发送数据失败: {e}")

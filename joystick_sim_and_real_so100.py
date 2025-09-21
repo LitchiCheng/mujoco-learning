@@ -8,6 +8,15 @@ import os
 import math
 from so100_real_control import ZMQCommunicator
 
+motors_key=[
+    "shoulder_pan",
+    "shoulder_lift",
+    "elbow_flex",
+    "wrist_flex",
+    "wrist_roll",
+    "gripper"
+]
+
 # 设置环境变量以确保正确访问游戏杆设备
 os.environ["SDL_JOYSTICK_DEVICE"] = "/dev/input/js0"
 SCENE_XML_PATH = 'model/trs_so_arm100/scene.xml'
@@ -136,10 +145,11 @@ class RobotController(mujoco_viewer.CustomViewer):
             self.dof[5] = dof5_target
         self.data.qpos[:6] = self.dof[:6]
         sim_joint_rad = self.data.qpos[:6].copy()
-        sim_joint_deg = [math.degrees(q) for q in sim_joint_rad]
-        self.communicator.send_data(sim_joint_deg)
+        # sim_joint_deg = [math.degrees(q) for q in sim_joint_rad]
+        actions = {f"{motor}.pos": val for motor, val in zip(motors_key, sim_joint_rad)}
+        self.communicator.send_data(actions)
         mujoco.mj_step(self.model, self.data)
-        time.sleep(0.01)
+        time.sleep(0.05)
     
     def build_transform_simple(self, x, y, z, roll, pitch, yaw):
         cr, sr = np.cos(roll), np.sin(roll)
