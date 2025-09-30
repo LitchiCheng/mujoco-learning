@@ -215,6 +215,12 @@
                       <geom mesh="hand_3" material="white" class="visual"/>
                       <geom mesh="hand_4" material="off_white" class="visual"/>
                       <geom mesh="hand_c" class="collision"/>
+                      
+                      <!-- refer to the panda_grasptarget in panda.urdf in panda_gym -->
+                        <body name="ee_center_body" pos="0 0 0.105">
+                            <site name='ee_center_site' size="0.01" group="3"/>
+                        </body>
+
                       <body name="left_finger" pos="0 0 0.0584">
                         <inertial mass="0.015" pos="0 0 0" diaginertia="2.375e-6 2.375e-6 7.5e-7"/>
                         <joint name="finger_joint1" class="finger"/>
@@ -278,6 +284,10 @@
   </actuator>
 
   <keyframe>
-    <key name="home" qpos="0 0 0 -1.57079 0 1.57079 -0.7853 0.04 0.04" ctrl="0 0 0 -1.57079 0 1.57079 -0.7853 255"/>
+    <key name="home" qpos="0 0 0 -1.57079 0 3.0 -1.7853 0.04 0.04" ctrl="0 0 0 -1.57079 0 1.57079 -0.7853 255"/>
   </keyframe>
+
+  <contact>
+    <exclude body1="link0" body2="link1"/>
+  </contact>
 </mujoco>
