@@ -7,9 +7,15 @@ class PandaEnv(mujoco_viewer.CustomViewer):
         self.path = path
     
     def runBefore(self):
-        pass
+        # 第一个关键点的位置通常是home位置
+        self.initial_pos = self.model.key_qpos[0]  
+        print("Initial position: ", self.initial_pos)
+        for i in range(self.model.nq):
+            self.data.qpos[i] = self.initial_pos[i]  # 设定初始位置
     
     def runFunc(self):
+        for i in range(self.model.nq):
+            self.data.qpos[i] = self.initial_pos[i]
         time.sleep(0.01)
 
 if __name__ == "__main__":
