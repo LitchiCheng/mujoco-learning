@@ -11,12 +11,15 @@ if [ ! -d "orocos_kinematics_dynamics" ]; then
     sudo make install
     cd ../..
     cd python_orocos_kdl
+    wget https://github.com/pybind/pybind11/archive/refs/tags/v2.13.0.zip
+    unzip v2.13.0.zip
+    mv pybind11-2.13.0/* pybind11
     mkdir build
     cd build
     cmake ..
     make -j$(nproc)
     sudo make install
-    cp PyKDL.so* ../../../../.venv/lib/python3.10/site-packages/
+    cp PyKDL.*so* ../../../../.venv/lib/python3.10/site-packages/
 fi
 
 rm -rf orocos_kinematics_dynamics
