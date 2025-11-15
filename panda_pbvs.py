@@ -12,6 +12,7 @@ class PandaPbvs(mujoco_viewer.CustomViewer):
         self.pin_xml = pin_xml
 
     def runBefore(self):
+        self.model.opt.timestep = 0.02
         self.pin_model = pinocchio.RobotWrapper.BuildFromMJCF(self.pin_xml)
         self.urdf_model = self.pin_model.model
         # 删除8,9夹抓部分
@@ -55,8 +56,8 @@ class PandaPbvs(mujoco_viewer.CustomViewer):
         ee_quat = self.data.body(self.end_effector_id).xquat.copy()
         # 线速度控制
         k_p_lin = 5.0
-        x = 0.5
-        y = 0.2
+        x = -0.5
+        y = 0.0
         z = 0.6
         p_des = np.array([x, y, z])
         e_p =  ee_pos - p_des
@@ -77,8 +78,8 @@ class PandaPbvs(mujoco_viewer.CustomViewer):
         v_e_desired = np.concatenate([v_des_lin, v_des_rot])
         # v_e_desired = np.concatenate([v_des_lin, [0, 0, 0]])
         # v_e_desired = np.concatenate([[0, 0, 0], v_des_rot])
-        J_pinv_damped = self.dampedPinv(J, lambda_d=0.1)
-        q_dot_core = J_pinv_damped @ v_e_desired  # 核心任务关节速度
+        J_pinv_damped = self.dampedPinv(J, lambda_d=0.4)
+        q_dot_core = J_pinv_damped @ v_e_desired
         q_dot_max = 3.14
         q_dot_des = np.clip(q_dot_core, -q_dot_max, q_dot_max)  # 限幅后关节速度
         self.integral_qpos[:7] += q_dot_des * self.model.opt.timestep  # 更新关节位置

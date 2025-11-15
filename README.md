@@ -19,6 +19,7 @@ bash install_pinocchio.sh
 ## Tutorials
 |file|url|
 |----|-------|
+|panda_pbvs.py|[Mujoco 机械臂进行 PBVS 基于位置的视觉伺服思路](https://www.bilibili.com/video/BV18zC5BNEt6/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |rl_panda_reach_target_high_profile.py|[Mujoco 仿真 PPO 强化学习机械臂末端路径规划到达指定位置](https://www.bilibili.com/video/BV1DAskzmEPZ/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |joystick_sim_and_real_so100.py|[SO-ARM100 双场景演示：手柄驱动 Mujoco 仿真 + 实机控制](https://www.bilibili.com/video/BV1RCp1zFE2v/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |joystick_so100.py|[北通手柄遥控 + Mujoco 仿真 SO-ARM100 机械臂末端位姿](https://www.bilibili.com/video/BV1fyYLzVEbW/?share_source=copy_web&vd_source=98d79df50a14f07106c58e9e50f70c68)|
