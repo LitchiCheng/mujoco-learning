@@ -57,5 +57,5 @@ class Test(mujoco_viewer.CustomViewer):
         self.data.mocap_quat[0] = self.quat
         time.sleep(0.01)
 
-test = Test("./model/franka_emika_panda/scene.xml")
+test = Test("./model/franka_emika_panda/scene_withmocap.xml")
 test.run_loop()
