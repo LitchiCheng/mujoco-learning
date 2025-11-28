@@ -70,14 +70,14 @@ class Kinematics:
             self.var_q,
             self.model.upperPositionLimit)
         )
-        self.opti.minimize(10.0 * self.translational_cost + 0.1*self.rotation_cost + 0.0 * self.regularization_cost + 0.1 * self.smooth_cost)
+        self.opti.minimize(20.0 * self.translational_cost + 0.01*self.rotation_cost + 0.0 * self.regularization_cost + 0.005 * self.smooth_cost)
 
         ##### IPOPT #####
         opts = {
             'ipopt':{
                 'print_level': 0,
-                'max_iter': 500,
-                'tol': 1e-4,
+                'max_iter': 1000,
+                'tol': 1e-6,
                 # 'hessian_approximation':"limited-memory"
             },
             'print_time':False,# print or not
@@ -86,6 +86,16 @@ class Kinematics:
         self.opti.solver("ipopt", opts)
 
         self.init_data = np.zeros(self.model.nq)
+
+    def fk(self, q):
+        pin.forwardKinematics(self.model, self.data, q)
+        pin.updateFramePlacements(self.model, self.data)
+        # tf = pin.SE3ToXYZQUAT(self.data.oMf[self.ee_id])
+        se3_obj = self.data.oMf[self.ee_id]
+        tf = np.eye(4, dtype=np.float64)
+        tf[:3, :3] = se3_obj.rotation
+        tf[:3, 3] = se3_obj.translation
+        return tf
       
     def ik(self, T , current_arm_motor_q = None, current_arm_motor_dq = None):
         if current_arm_motor_q is not None:
@@ -148,27 +158,20 @@ class Kinematics:
             raise e
 
 if __name__ == "__main__":
-    
+    import sys, os
+    sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+    import utils
+
     arm = Kinematics("Jaw")
-    arm.buildFromMJCF("model/trs_so_arm100/so_arm100.xml")
-    theta = np.pi
-    tf = np.array([
-            [1, 0, 0, 0.1],
-            [0, np.cos(theta), -np.sin(theta), 0.2],
-            [0, np.sin(theta), np.cos(theta), 0.3],
-        ])
-    tf = np.vstack((tf, [0, 0, 0, 1]))
+    arm.buildFromMJCF("../model/trs_so_arm100/so_arm100.xml")
+    tf = utils.transform2mat(0.1, 0.0, 0.3, np.pi, 0, 0)
     dof, info = arm.ik(tf)
     print(f"DoF: {dof}, Info: {info}")
+    print(f"FK: {arm.fk(dof)}")
 
-    arm2 = Kinematics("joint7")
-    arm2.buildFromMJCF("model/franka_emika_panda/panda_nohand.xml")
-    theta = np.pi
-    tf = np.array([
-            [1, 0, 0, 0.1],
-            [0, np.cos(theta), -np.sin(theta), 0.2],
-            [0, np.sin(theta), np.cos(theta), 0.3],
-        ])
-    tf = np.vstack((tf, [0, 0, 0, 1]))
+    arm2 = Kinematics("link7")
+    arm2.buildFromMJCF("../model/franka_emika_panda/panda.xml")
+    tf = utils.transform2mat(0.7, 0.0, 0.3, np.pi, 0, 0)
     dof, info = arm2.ik(tf)
     print(f"DoF: {dof}, Info: {info}")
+    print(f"FK: {arm2.fk(dof)}")

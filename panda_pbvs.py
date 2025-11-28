@@ -55,15 +55,15 @@ class PandaPbvs(mujoco_viewer.CustomViewer):
         ee_pos = self.data.body(self.end_effector_id).xpos.copy()
         ee_quat = self.data.body(self.end_effector_id).xquat.copy()
         # 线速度控制
-        k_p_lin = 5.0
-        x = -0.5
+        k_p_lin = 1.0
+        x = 0.5
         y = 0.0
-        z = 0.6
+        z = 0.1
         p_des = np.array([x, y, z])
         e_p =  ee_pos - p_des
         v_des_lin = -k_p_lin * e_p
         # 旋转速度控制
-        k_p_rot = 3.0
+        k_p_rot = 1.0
         R_ee = utils.quat2rotmat(ee_quat)
         roll = np.pi
         pitch = 0.0
@@ -78,7 +78,7 @@ class PandaPbvs(mujoco_viewer.CustomViewer):
         v_e_desired = np.concatenate([v_des_lin, v_des_rot])
         # v_e_desired = np.concatenate([v_des_lin, [0, 0, 0]])
         # v_e_desired = np.concatenate([[0, 0, 0], v_des_rot])
-        J_pinv_damped = self.dampedPinv(J, lambda_d=0.4)
+        J_pinv_damped = self.dampedPinv(J, lambda_d=0.05)
         q_dot_core = J_pinv_damped @ v_e_desired
         q_dot_max = 3.14
         q_dot_des = np.clip(q_dot_core, -q_dot_max, q_dot_max)  # 限幅后关节速度

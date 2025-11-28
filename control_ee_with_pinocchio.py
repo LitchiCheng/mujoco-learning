@@ -9,7 +9,7 @@ import pinocchio
 from numpy.linalg import norm, solve
 
 def inverse_kinematics(current_q, target_dir, target_pos):
-    urdf_filename = '/home/dar/MuJoCoBin/mujoco-learning/franka_panda_description/robots/panda_arm.urdf'
+    urdf_filename = "model/franka_panda_urdf/robots/panda_arm.urdf"
     # 从 URDF 文件构建机器人模型
     model = pinocchio.buildModelFromUrdf(urdf_filename)
     # 为模型创建数据对象，用于存储计算过程中的中间结果
@@ -88,7 +88,7 @@ def limit_angle(angle):
         angle += 2 * np.pi
     return angle
 
-model = mujoco.MjModel.from_xml_path('/home/dar/MuJoCoBin/mujoco_menagerie/franka_emika_panda/scene.xml')
+model = mujoco.MjModel.from_xml_path('model/franka_emika_panda/scene_pos.xml')
 data = mujoco.MjData(model)
 
 class CustomViewer:
@@ -97,7 +97,7 @@ class CustomViewer:
         self.pos = 0.0001
 
         # 找到末端执行器的 body id
-        self.end_effector_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, 'left_finger')
+        self.end_effector_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, 'ee_center_body')
         print(f"End effector ID: {self.end_effector_id}")
         if self.end_effector_id == -1:
             print("Warning: Could not find the end effector with the given name.")

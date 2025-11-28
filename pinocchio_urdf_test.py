@@ -11,7 +11,7 @@ q = np.zeros(model.nq)
 for i in range(model.nq):
     q[i] = 0.1
 try:
-    frame_id = model.getFrameId("panda_link7") 
+    frame_id = model.getFrameId("link7") 
     pin.framesForwardKinematics(model, data, q)
     pin.updateFramePlacements(model, data)
     # pin.ReferenceFrame.LOCAL              # 表达在末端局部坐标系（body frame）
@@ -31,8 +31,8 @@ print("末端速度:", ee_vel.round(3))
 # 打印frame_id对应的位姿
 print(data.oMf[frame_id])
 for i in range(model.nq):
-    print("panda_link"+str(i+1))
-    print(data.oMf[model.getFrameId("panda_link" + str(i+1))])
+    print("link"+str(i+1))
+    print(data.oMf[model.getFrameId("link" + str(i+1))])
 
 
 

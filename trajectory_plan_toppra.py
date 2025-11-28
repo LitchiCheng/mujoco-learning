@@ -13,7 +13,7 @@ class Test(mujoco_viewer.CustomViewer):
         super().__init__(path, 3, azimuth=-45, elevation=-30)
     
     def runBefor(self):
-        robot = pinocchio.buildModelFromUrdf('model/panda_description/urdf/panda.urdf')
+        robot = pinocchio.buildModelFromUrdf("model/franka_panda_urdf/robots/panda_arm.urdf")
         print('robot name: ' + robot.name)
 
         # <key qpos='-1.09146e-23 0.00126288 -3.32926e-07 -0.0696243 -2.28695e-05 0.192135 0.00080101 -5.53841e-09 2.91266e-07'/>

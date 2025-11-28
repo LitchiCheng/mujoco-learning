@@ -61,5 +61,5 @@ class Test(mujoco_viewer.CustomViewer):
             self.data.qpos[:7] = self.path_states[-1][:7]
         time.sleep(0.01)
 
-test = Test("model/franka_emika_panda/scene.xml")
+test = Test("model/franka_emika_panda/scene_pos.xml")
 test.run_loop()

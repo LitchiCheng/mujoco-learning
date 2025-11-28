@@ -1,7 +1,7 @@
 import mujoco
 import numpy as np
 import mujoco_viewer
-import src.casadi_ik as casadi_ik
+import src.kdl_ik as kdl_ik
 import time
 import os
 import utils
@@ -12,10 +12,12 @@ class RobotController(mujoco_viewer.CustomViewer):
         self.scene_path = scene_path
         self.arm_path = arm_path
         
+        self.ee_body_name = "ee_center_body"
         # 初始化逆运动学
-        self.arm = casadi_ik.Kinematics("link7")
-        self.arm.buildFromMJCF(arm_path)
-        self.end_effector_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "link7")
+        self.arm = kdl_ik.Kinematics(self.ee_body_name)
+        urdf_file = "model/franka_panda_urdf/robots/panda_arm.urdf"
+        self.arm.buildFromURDF(urdf_file, "link0")
+        self.end_effector_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, self.ee_body_name)
         self.last_dof = None
         
     def runBefore(self):
@@ -29,22 +31,22 @@ class RobotController(mujoco_viewer.CustomViewer):
         # self.x = ee_pos[0]
         # self.y = ee_pos[1]
         # self.z = ee_pos[2]
-        self.x = 0.1
+        self.x = 0.51
         self.y = 0.0
-        self.z = 0.4
+        self.z = 0.3
         self.last_dof = self.data.qpos[:9].copy()
     
     def runFunc(self):
-        self.x += 0.001
-        if self.x > 0.3:
-            self.x = 0.3
+        # self.x += 0.001
+        # if self.x > 0.3:
+        #     self.x = 0.3
         tf = utils.transform2mat(self.x, self.y, self.z, np.pi, 0, 0)
         self.dof, info = self.arm.ik(tf, current_arm_motor_q=self.last_dof)
         print("ik result", info["success"])
         self.last_dof = self.dof
-        self.data.qpos[:7] = self.dof[:7]
-        print("ee pos", self.getBodyPosByName("link7"))
-
+        self.data.ctrl[:7] = self.dof[:7]
+        print("ee pos", self.getBodyPosByName(self.ee_body_name))
+        print("fk", self.arm.fk(self.dof[:7]))
 
 if __name__ == "__main__":
     SCENE_XML_PATH = 'model/franka_emika_panda/scene_pos.xml'

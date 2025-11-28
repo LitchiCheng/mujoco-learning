@@ -45,6 +45,17 @@ def euler2rotmat(roll, pitch, yaw):
     ])
     return R
 
+def transform2mat(x, y, z, roll, pitch, yaw):
+    cr, sr = np.cos(roll), np.sin(roll)
+    cp, sp = np.cos(pitch), np.sin(pitch)
+    cy, sy = np.cos(yaw), np.sin(yaw)
+    return np.array([
+        [cy*cp, cy*sp*sr - sy*cr, cy*sp*cr + sy*sr, x],
+        [sy*cp, sy*sp*sr + cy*cr, sy*sp*cr - cy*sr, y],
+        [-sp,   cp*sr,            cp*cr,            z],
+        [0,     0,                0,                1]
+    ])
+
 def euler2quat(roll, pitch, yaw):
     """
     将欧拉角（roll, pitch, yaw）转换为四元数（[w, x, y, z]）。    

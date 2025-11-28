@@ -97,8 +97,8 @@ def main():
     success, tree = load_urdf_to_kdl(urdf_file)
     if not success:
         return
-    base_link = "panda_link0"
-    tip_link = "panda_link7"
+    base_link = "link0"
+    tip_link = "link7"
     chain = create_chain_from_tree(tree, base_link, tip_link)
     if chain is None:
         return
