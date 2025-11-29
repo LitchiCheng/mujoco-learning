@@ -20,7 +20,7 @@ def test_urdf_match_with_mjcf(model):
 
 if __name__ == '__main__':
     print("mjcf test")
-    model_mjcf = pin.RobotWrapper.BuildFromMJCF("model/franka_emika_panda/panda_pos.xml").model
+    model_mjcf = pin.RobotWrapper.BuildFromMJCF("model/franka_emika_panda/panda_remove_finger.xml").model
     test_urdf_match_with_mjcf(model_mjcf)
     print("")
     print("urdf test")
