@@ -25,13 +25,14 @@ class CheckFk(mujoco_viewer.CustomViewer):
         for i in range(self.model.nq):
             self.data.qpos[i] = self.initial_pos[i]
 
-        self.fk_tf1 = self.arm1.fk(self.data.qpos)
-        self.fk_tf2 = self.arm2.fk(self.data.qpos)
+        
 
     def runFunc(self):
-        self.data.qpos[:7] = self.initial_pos[:7]
+        # self.data.qpos[:7] = self.initial_pos[:7]
         print("Mujoco body position: ")
         print(self.getBodyPosByName(self.ee_body_name))
+        self.fk_tf1 = self.arm1.fk(self.data.qpos)
+        self.fk_tf2 = self.arm2.fk(self.data.qpos)
         print("FK methed 1 result: ")
         print(self.fk_tf1)
         print("FK methed 2 result: ")
