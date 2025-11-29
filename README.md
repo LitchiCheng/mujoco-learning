@@ -19,6 +19,8 @@ bash install_pinocchio.sh
 ## Tutorials
 |file|url|
 |----|-------|
+|mujoco_get_all_bady.py|[Mujoco 基础：获取模型中所有 body 的 name, id 以及位姿](https://www.bilibili.com/video/BV16cSFBxEYy/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
+|urdf_match_with_mjcf.py|[Mujoco 模型 MJCF 和 URDF 如何手动对齐（Pinocchio验证）](https://www.bilibili.com/video/BV1HzSFB8EyS/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |panda_pbvs.py|[Mujoco 机械臂进行 PBVS 基于位置的视觉伺服思路](https://www.bilibili.com/video/BV18zC5BNEt6/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |rl_panda_reach_target_high_profile.py|[Mujoco 仿真 PPO 强化学习机械臂末端路径规划到达指定位置](https://www.bilibili.com/video/BV1DAskzmEPZ/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |joystick_sim_and_real_so100.py|[SO-ARM100 双场景演示：手柄驱动 Mujoco 仿真 + 实机控制](https://www.bilibili.com/video/BV1RCp1zFE2v/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
