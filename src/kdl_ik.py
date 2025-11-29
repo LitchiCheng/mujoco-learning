@@ -34,17 +34,17 @@ class Kinematics:
         self.ik_vel_solver = PyKDL.ChainIkSolverVel_pinv(self.chain)
         max_iterations = 500
         eps = 1e-6
-        # self.ik_pos_solver = PyKDL.ChainIkSolverPos_NR(
-        #     self.chain, self.fk_solver, self.ik_vel_solver, max_iterations, eps
-        # )
-        L = np.array([1.0, 1.0, 1.0, 0.1, 0.1, 0.1]).reshape(6, 1)  # 位置权重1.0，姿态权重0.1
-        self.ik_pos_solver = PyKDL.ChainIkSolverPos_LMA(
-            self.chain,
-            L,
-            eps=1e-5,              # 收敛精度
-            maxiter=500,           # 最大迭代次数
-            eps_joints=1e-15,      # 关节变化收敛阈值
+        self.ik_pos_solver = PyKDL.ChainIkSolverPos_NR(
+            self.chain, self.fk_solver, self.ik_vel_solver, max_iterations, eps
         )
+        # L = np.array([1.0, 1.0, 1.0, 0.1, 0.1, 0.1]).reshape(6, 1)  # 位置权重1.0，姿态权重0.1
+        # self.ik_pos_solver = PyKDL.ChainIkSolverPos_LMA(
+        #     self.chain,
+        #     L,
+        #     eps=1e-5,              # 收敛精度
+        #     maxiter=500,           # 最大迭代次数
+        #     eps_joints=1e-6,      # 关节变化收敛阈值
+        # )
         self.jac_solver = PyKDL.ChainJntToJacSolver(self.chain)
 
     def fk(self, q):
