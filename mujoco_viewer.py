@@ -29,6 +29,46 @@ class CustomViewer:
     def viewport(self):
         return self.handle.viewport
     
+    def addVisuGeom(self, geoms_pos:np.ndarray, geoms_type:list, geoms_size:np.ndarray, geoms_rgba:np.ndarray):
+        now_user_geom_num = self.handle.user_scn.ngeom
+        self.handle.user_scn.ngeom = 0
+        total_geoms = now_user_geom_num + len(geoms_pos)
+        self.handle.user_scn.ngeom = total_geoms
+
+        for i in range(len(geoms_pos)):
+            pos = geoms_pos[i]
+            rgba = geoms_rgba[i]
+            size = geoms_size[i]
+            if len(size) < 3:
+                if len(size) < 2:
+                    size = np.concatenate([size, [0.0, 0.0]])
+                else:
+                    size = np.concatenate([size, [0.0]])
+            ob_type_str = geoms_type[i]
+            ob_type = mujoco.mjtGeom.mjGEOM_SPHERE
+            if ob_type_str == "sphere":
+                ob_type = mujoco.mjtGeom.mjGEOM_SPHERE
+            elif ob_type_str == "box":
+                ob_type = mujoco.mjtGeom.mjGEOM_BOX
+            elif ob_type_str == "capsule":
+                ob_type = mujoco.mjtGeom.mjGEOM_CAPSULE
+            elif ob_type_str == "cylinder":
+                ob_type = mujoco.mjtGeom.mjGEOM_CYLINDER
+            elif ob_type_str == "ellipsoid":
+                ob_type = mujoco.mjtGeom.mjGEOM_ELLIPSOID
+            elif ob_type_str == "mesh":
+                ob_type = mujoco.mjtGeom.mjGEOM_MESH
+            else:
+                raise ValueError(f"Unsupported geom type: {ob_type_str}")
+            mujoco.mjv_initGeom(
+                self.handle.user_scn.geoms[i],
+                type = ob_type,
+                size = size, 
+                pos=pos,
+                mat=np.eye(3).flatten(),
+                rgba=rgba
+            )
+    
     def addObstacles(self, obstacles_pos:np.ndarray, obstacles_type:list, obstacles_size:np.ndarray, obstacles_rgba:np.ndarray):
         """
         Add obstacles to the model.
@@ -71,7 +111,7 @@ class CustomViewer:
         self.data = mujoco.MjData(self.model)
 
         print(f"原始 Geom 数：{self.original_model.ngeom}")
-        print(f"新模型 Geom 数：{self.model.ngeom}")  # 应该等于原始数 + 障碍物数
+        print(f"新模型 Geom 数：{self.model.ngeom}")
         
     def getBodyIdsByName(self):
         map = {}
