@@ -14,7 +14,10 @@ class Test(mujoco_viewer.CustomViewer):
             body_name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_BODY, body_id)
             # 获取父 body ID
             parent_body_id = self.model.body_parentid[body_id]
-            print(f"{body_id:<10} {body_name:<20} {parent_body_id:<15}") 
+            # print(f"{body_id:<10} {body_name:<20} {parent_body_id:<15}") 
+            pos = self.data.body(body_id).xpos
+            quat = self.data.body(body_id).xquat
+            print(f"id:{body_id}, name: {body_name}, Position: {pos}, Quaternion: {quat}")
             
     def runFunc(self):
         placeholder = 0
