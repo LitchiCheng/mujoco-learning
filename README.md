@@ -19,6 +19,7 @@ bash install_pinocchio.sh
 ## Tutorials
 |file|url|
 |----|-------|
+|ik_kdl_panda.py|[Mujoco 使用 KDL 对机械臂进行 IK 和 FK 运动学控制末端移动](https://www.bilibili.com/video/BV1GKSNBtEvJ/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |mujoco_get_all_bady.py|[Mujoco 基础：获取模型中所有 body 的 name, id 以及位姿](https://www.bilibili.com/video/BV16cSFBxEYy/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |urdf_match_with_mjcf.py|[Mujoco 模型 MJCF 和 URDF 如何手动对齐（Pinocchio验证）](https://www.bilibili.com/video/BV1HzSFB8EyS/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |panda_pbvs.py|[Mujoco 机械臂进行 PBVS 基于位置的视觉伺服思路](https://www.bilibili.com/video/BV18zC5BNEt6/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
