@@ -61,7 +61,7 @@ class CustomViewer:
             else:
                 raise ValueError(f"Unsupported geom type: {ob_type_str}")
             mujoco.mjv_initGeom(
-                self.handle.user_scn.geoms[i],
+                self.handle.user_scn.geoms[i+now_user_geom_num],
                 type = ob_type,
                 size = size, 
                 pos=pos,
