@@ -19,6 +19,8 @@ bash install_pinocchio.sh
 ## Tutorials
 |file|url|
 |----|-------|
+|rrt_obstacle.py|[Mujoco 机械臂 OMPL 进行 RRT 关节空间路径规划避障、绕障](https://www.bilibili.com/video/BV1fuSiBdExx/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
+|check_fk_match_with_mujoco.py|[Mujoco 检验 KDL 和 Pinocchio 运动学 FK 是否一致](https://www.bilibili.com/video/BV19xSKBYEoX/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |ik_kdl_panda.py|[Mujoco 使用 KDL 对机械臂进行 IK 和 FK 运动学控制末端移动](https://www.bilibili.com/video/BV1GKSNBtEvJ/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |mujoco_get_all_bady.py|[Mujoco 基础：获取模型中所有 body 的 name, id 以及位姿](https://www.bilibili.com/video/BV16cSFBxEYy/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |urdf_match_with_mjcf.py|[Mujoco 模型 MJCF 和 URDF 如何手动对齐（Pinocchio验证）](https://www.bilibili.com/video/BV1HzSFB8EyS/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|

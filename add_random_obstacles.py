@@ -23,9 +23,11 @@ class Env(mujoco_viewer.CustomViewer):
             rgba = np.random.rand(4)
             rgba[3] = 0.8
             self.usr_obstacle_pos.append([pos[0], pos[1], pos[2]])
-            self.usr_obstacle_type.append("box")
+            # self.usr_obstacle_type.append("box")
+            self.usr_obstacle_type.append("sphere")
             self.obstacle_size = 0.05
-            self.usr_obstacle_size.append([self.obstacle_size, self.obstacle_size, self.obstacle_size])
+            # self.usr_obstacle_size.append([self.obstacle_size, self.obstacle_size, self.obstacle_size])
+            self.usr_obstacle_size.append([self.obstacle_size])
             self.usr_obstacle_rgba.append([rgba[0], rgba[1], rgba[2], 0.8])
         self.addObstacles(self.usr_obstacle_pos, self.usr_obstacle_type, self.usr_obstacle_size, self.usr_obstacle_rgba)
     
