@@ -5,13 +5,18 @@ import time
 import mujoco_viewer
 import src.casadi_ik as casadi_ik
 import src.kdl_ik as kdl_ik
+import src.key_listener as key_listener
 import utils
 import numpy as np
+from pynput import keyboard
 
+key_states = {
+    keyboard.Key.down: False
+}
 
 class Test(mujoco_viewer.CustomViewer):
     def __init__(self, rendor_path, arm_path):
-        super().__init__(rendor_path, 3, azimuth=-45, elevation=-30)
+        super().__init__(rendor_path, 3, azimuth=-90, elevation=-30)
         self.arm_path = arm_path
         
         self.obstacles_size = []
@@ -19,16 +24,19 @@ class Test(mujoco_viewer.CustomViewer):
         self.obstacles_rgba = []
         self.obstacles_type = []
 
-        self.obstacles_type.append("sphere")
-        self.obstacles_size.append([0.08])
-        self.obstacles_pos.append([0.2, 0.2, 0.5])
-        self.obstacles_rgba.append([0.3, 0.3, 0.3, 0.8])
+        # self.obstacles_type.append("box")
+        # self.obstacles_size.append([0.07, 0.07, 0.07])
+        # self.obstacles_pos.append([0.25, 0.22, 0.5])
+        # self.obstacles_rgba.append([0.4, 0.3, 0.3, 0.8])
 
-        # self.obstacles_type.append("sphere")
-        # self.obstacles_size.append([0.06])
-        # self.obstacles_pos.append([0.3, -0.01, 0.7])
-        # self.obstacles_rgba.append([0.3, 0.3, 0.3, 0.8])
+        self.obstacles_type.append("sphere")
+        self.obstacles_size.append([0.06])
+        self.obstacles_pos.append([0.3, 0.2, 0.5])
+        self.obstacles_rgba.append([0.3, 0.3, 0.3, 0.8])
         self.addObstacles(self.obstacles_pos, self.obstacles_type, self.obstacles_size, self.obstacles_rgba)
+        
+        self.key_listener = key_listener.KeyListener(key_states)
+        self.key_listener.start()
     
     def getBipolarJoints(self):
         self.initial_pos = self.model.key_qpos[0]  
@@ -79,7 +87,7 @@ class Test(mujoco_viewer.CustomViewer):
         planner.setIntermediateStates(True)
         planner.setProblemDefinition(pdef)
         planner.setup()
-        self.planning_timeout = 5.0
+        self.planning_timeout = 3.0
         solved = planner.solve(self.planning_timeout)
         self.path_states = []
         if solved:
@@ -94,26 +102,7 @@ class Test(mujoco_viewer.CustomViewer):
         self.index = 0
         return solved
     
-    def runBefore(self):
-        self.model.opt.timestep = 0.005
-
-        self.ee_body_name = "ee_center_body"
-
-        self.goal_x = 0.4
-        self.goal_y = 0.3
-        self.goal_z = 0.4
-
-        self.usr_geom_size = []
-        self.usr_geom_pos = []
-        self.usr_geom_rgba = []
-        self.usr_geom_type = []
-        
-        self.usr_geom_pos.append([self.goal_x, self.goal_y, self.goal_z])
-        self.usr_geom_type.append("sphere")
-        self.usr_geom_size.append([0.02])
-        self.usr_geom_rgba.append([0.1, 0.3, 0.3, 0.8])
-        self.addVisuGeom(self.usr_geom_pos, self.usr_geom_type, self.usr_geom_size, self.usr_geom_rgba)
-
+    def createTask(self):
         try_cnt = 10
         self.success = False
         for i in range(try_cnt):
@@ -122,6 +111,23 @@ class Test(mujoco_viewer.CustomViewer):
             if self.success:
                 break
             print("Try again... cnt ", i)
+    
+    def runBefore(self):
+        self.model.opt.timestep = 0.005
+        self.ee_body_name = "ee_center_body"
+        self.goal_x = 0.4
+        self.goal_y = 0.3
+        self.goal_z = 0.4
+        self.usr_geom_size = []
+        self.usr_geom_pos = []
+        self.usr_geom_rgba = []
+        self.usr_geom_type = []
+        self.usr_geom_pos.append([self.goal_x, self.goal_y, self.goal_z])
+        self.usr_geom_type.append("sphere")
+        self.usr_geom_size.append([0.02])
+        self.usr_geom_rgba.append([0.1, 0.3, 0.3, 0.8])
+        self.addVisuGeom(self.usr_geom_pos, self.usr_geom_type, self.usr_geom_size, self.usr_geom_rgba)
+        self.createTask()
 
     def runFunc(self):
         if not self.success:
@@ -133,8 +139,11 @@ class Test(mujoco_viewer.CustomViewer):
             self.index += 1
         else:
             self.data.qpos[:7] = self.path_states[-1][:7]
+            if key_states[keyboard.Key.down]:
+                print("re create task")
+                self.index = 0
+                self.createTask()
         
-
 if __name__ == "__main__":
     SCENE_XML_PATH = 'model/franka_emika_panda/scene_pos.xml'
     ARM_XML_PATH = 'model/franka_emika_panda/panda_pos.xml'
