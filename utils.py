@@ -56,6 +56,11 @@ def transform2mat(x, y, z, roll, pitch, yaw):
         [0,     0,                0,                1]
     ])
 
+def mat2transform(mat):
+    x, y, z = mat[0:3, 3]
+    roll, pitch, yaw = np.arctan2(mat[2, 1], mat[2, 2]), np.arctan2(-mat[2, 0], np.sqrt(mat[2, 1]**2 + mat[2, 2]**2)), np.arctan2(mat[1, 0], mat[0, 0])
+    return x, y, z, roll, pitch, yaw
+
 def euler2quat(roll, pitch, yaw):
     """
     将欧拉角（roll, pitch, yaw）转换为四元数（[w, x, y, z]）。    
