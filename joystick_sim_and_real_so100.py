@@ -1,7 +1,7 @@
 import mujoco
 import numpy as np
 import mujoco_viewer
-import casadi_ik
+import src.pinocchio_kinematic as pinocchio_kinematic
 import time
 import pygame
 import os
@@ -123,7 +123,7 @@ class RobotController(mujoco_viewer.CustomViewer):
         self.controller = controller
         self.communicator = ZMQCommunicator()
         
-        self.arm = casadi_ik.Kinematics("Wrist_Roll")
+        self.arm = pinocchio_kinematic.Kinematics("Wrist_Roll")
         self.arm.buildFromMJCF(arm_path)
         
         self.last_dof = None

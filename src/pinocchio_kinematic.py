@@ -19,6 +19,12 @@ class Kinematics:
         self.arm = pin.RobotWrapper.BuildFromURDF(urdf_file)
         self.createSolver()
 
+    def getJac(self, q):
+        pin.forwardKinematics(self.model, self.data, q)
+        pin.updateFramePlacements(self.model, self.data)
+        J = pin.computeFrameJacobian(self.model, self.data, q, self.ee_id, pin.ReferenceFrame.WORLD)
+        return J
+
     def createSolver(self):
         self.model = self.arm.model
         self.data = self.arm.data

@@ -1,7 +1,7 @@
 import mujoco_viewer 
 import mujoco
-import src.kdl_ik as kdl_ik
-import src.casadi_ik as casadi_ik
+import src.kdl_kinematic as kdl_kinematic
+import src.pinocchio_kinematic as pinocchio_kinematic
 
 class CheckFk(mujoco_viewer.CustomViewer):
     def __init__(self, rendor_path, arm_path):
@@ -10,11 +10,11 @@ class CheckFk(mujoco_viewer.CustomViewer):
 
         self.ee_body_name = "link7"
         # # 初始化逆运动学
-        self.arm2 = kdl_ik.Kinematics(self.ee_body_name)
+        self.arm2 = kdl_kinematic.Kinematics(self.ee_body_name)
         urdf_file = "model/franka_panda_urdf/robots/panda_arm.urdf"
         self.arm2.buildFromURDF(urdf_file, "link0")
 
-        self.arm1 = casadi_ik.Kinematics(self.ee_body_name)
+        self.arm1 = pinocchio_kinematic.Kinematics(self.ee_body_name)
         self.arm1.buildFromMJCF(self.arm_path)
 
     def runBefore(self):

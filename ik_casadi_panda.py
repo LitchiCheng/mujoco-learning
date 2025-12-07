@@ -1,7 +1,7 @@
 import mujoco
 import numpy as np
 import mujoco_viewer
-import src.casadi_ik as casadi_ik
+import src.pinocchio_kinematic as pinocchio_kinematic
 import time
 import os
 import utils
@@ -13,7 +13,7 @@ class RobotController(mujoco_viewer.CustomViewer):
         self.arm_path = arm_path
         
         # 初始化逆运动学
-        self.arm = casadi_ik.Kinematics("link7")
+        self.arm = pinocchio_kinematic.Kinematics("link7")
         self.arm.buildFromMJCF(arm_path)
         self.end_effector_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "link7")
         self.last_dof = None

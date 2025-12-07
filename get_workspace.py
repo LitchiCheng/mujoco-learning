@@ -1,4 +1,4 @@
-import src.kdl_ik as kdl_ik
+import src.kdl_kinematic as kdl_kinematic
 import PyKDL
 import numpy as np
 import os
@@ -18,7 +18,7 @@ class GetWorkspace(mujoco_viewer.CustomViewer):
 
     def runBefore(self):
         self.ee_body_name = "ee_center_body"
-        self.kine = kdl_ik.Kinematics(self.ee_body_name)
+        self.kine = kdl_kinematic.Kinematics(self.ee_body_name)
         self.kine.buildFromURDF(self.urdf_path, "link0")
         workspace = []
         for _ in range(self.sample_num):

@@ -1,7 +1,7 @@
 import mujoco
 import numpy as np
 import mujoco_viewer
-import src.kdl_ik as kdl_ik
+import src.kdl_kinematic as kdl_kinematic
 import time
 import os
 import utils
@@ -14,7 +14,7 @@ class RobotController(mujoco_viewer.CustomViewer):
         
         self.ee_body_name = "ee_center_body"
         # 初始化逆运动学
-        self.arm = kdl_ik.Kinematics(self.ee_body_name)
+        self.arm = kdl_kinematic.Kinematics(self.ee_body_name)
         urdf_file = "model/franka_panda_urdf/robots/panda_arm.urdf"
         self.arm.buildFromURDF(urdf_file, "link0")
         self.end_effector_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, self.ee_body_name)

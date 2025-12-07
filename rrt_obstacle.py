@@ -3,8 +3,8 @@ import ompl.base as ob
 import ompl.geometric as og
 import time
 import mujoco_viewer
-import src.casadi_ik as casadi_ik
-import src.kdl_ik as kdl_ik
+import src.pinocchio_kinematic as pinocchio_kinematic
+import src.kdl_kinematic as kdl_kinematic
 import src.key_listener as key_listener
 import utils
 import numpy as np
@@ -47,7 +47,7 @@ class Test(mujoco_viewer.CustomViewer):
 
         euler = np.random.uniform(0, 2*np.pi, 3)
         tf = utils.transform2mat(self.goal_x, self.goal_y, self.goal_z, euler[0], euler[1], euler[2])
-        self.solver = casadi_ik.Kinematics(self.ee_body_name)
+        self.solver = pinocchio_kinematic.Kinematics(self.ee_body_name)
         self.solver.buildFromMJCF(self.arm_path)
         self.dof, info = self.solver.ik(tf, current_arm_motor_q=self.start_dof)
         print("goal dof", self.dof)

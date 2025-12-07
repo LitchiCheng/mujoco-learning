@@ -2,7 +2,7 @@ import mujoco
 import numpy as np
 import mujoco.viewer
 import numpy as np
-import casadi_ik
+import src.pinocchio_kinematic as pinocchio_kinematic
 import time
 
 SCENE_XML_PATH = 'model/trs_so_arm100/scene.xml'
@@ -17,7 +17,7 @@ class CustomViewer:
         self.x = 0.3
         self.y = 0.0
         self.z = 0.1
-        self.arm = casadi_ik.Kinematics("Jaw")
+        self.arm = pinocchio_kinematic.Kinematics("Jaw")
         self.arm.buildFromMJCF(ARM_XML_PATH)
 
     def is_running(self):
