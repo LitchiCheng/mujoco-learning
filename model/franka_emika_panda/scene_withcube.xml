@@ -22,7 +22,8 @@
     <!-- 添加长方体 -->
     <body name="cube" pos="0.75 0 0.05">
       <freejoint/>
-      <geom type="box" size="0.05 0.02 0.06" rgba="1 0 0 1" mass="0.01" friction="3.0 2.0 0.003"/>
+      <!-- mass="0.01"  -->
+      <geom type="box" size="0.02 0.02 0.02" rgba="1 0 0 1" friction="1.0 0.3 0.00001"/>
     </body>
   </worldbody>
 </mujoco>

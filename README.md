@@ -19,6 +19,11 @@ bash install_pinocchio.sh
 ## Tutorials
 |file|url|
 |----|-------|
+|panda_dynamics_hold.py|[Mujoco 使用 Pinocchio 进行逆动力学及阻抗力矩控制维持当前位置](https://www.bilibili.com/video/BV1nVqDBTEma/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
+|null_space.py|[Mujoco 冗余机械臂零空间 Null Space 运动仿真](https://www.bilibili.com/video/BV1bUmFBiEv1/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
+|get_workspace.py|[Mujoco 蒙特卡洛采样统计机械臂可达工作空间（非Matlab）](https://www.bilibili.com/video/BV1tDmFBNE1d/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
+|add_random_obstacle.py|[Mujoco 随机添加碰撞物体（位置、类型、大小、颜色）以及注意点](https://www.bilibili.com/video/BV1Zs2WBjEyK/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
+|add_random_geoms.py|[Mujoco 动态添加可视化元素（可用于画轨迹或目标点）](https://www.bilibili.com/video/BV16J2WBSE5Z/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |rrt_obstacle.py|[Mujoco 机械臂 OMPL 进行 RRT 关节空间路径规划避障、绕障](https://www.bilibili.com/video/BV1fuSiBdExx/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |check_fk_match_with_mujoco.py|[Mujoco 检验 KDL 和 Pinocchio 运动学 FK 是否一致](https://www.bilibili.com/video/BV19xSKBYEoX/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |ik_kdl_panda.py|[Mujoco 使用 KDL 对机械臂进行 IK 和 FK 运动学控制末端移动](https://www.bilibili.com/video/BV1GKSNBtEvJ/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|

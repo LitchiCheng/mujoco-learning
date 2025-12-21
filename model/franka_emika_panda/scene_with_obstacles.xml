@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="panda scene">
+  <include file="panda.xml" />
+
+  <statistic center="0.3 0 0.4" extent="1" />
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0" />
+    <rgba haze="0.15 0.25 0.35 1" />
+    <global azimuth="120" elevation="-20" />
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072" />
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300" />
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2" />
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 1.5" dir="0 0 -1" directional="true" />
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane" />
+    
+  <geom name="obstacle_0" type="sphere" size="0.050" pos="0.028 0.124 0.100" contype="1" conaffinity="1" mass="0.0" rgba="0.105 0.814 0.955 0.800" /><geom name="obstacle_1" type="sphere" size="0.050" pos="-0.257 0.228 0.643" contype="1" conaffinity="1" mass="0.0" rgba="0.523 0.707 0.441 0.800" /><geom name="obstacle_2" type="sphere" size="0.050" pos="0.041 0.260 0.506" contype="1" conaffinity="1" mass="0.0" rgba="0.219 0.650 0.737 0.800" /><geom name="obstacle_3" type="sphere" size="0.050" pos="0.181 0.275 0.194" contype="1" conaffinity="1" mass="0.0" rgba="0.953 0.474 0.029 0.800" /><geom name="obstacle_4" type="sphere" size="0.050" pos="-0.231 -0.116 0.367" contype="1" conaffinity="1" mass="0.0" rgba="0.099 0.403 0.957 0.800" /><geom name="obstacle_5" type="sphere" size="0.050" pos="0.225 0.119 0.203" contype="1" conaffinity="1" mass="0.0" rgba="0.280 0.117 0.440 0.800" /><geom name="obstacle_6" type="sphere" size="0.050" pos="-0.114 0.022 0.686" contype="1" conaffinity="1" mass="0.0" rgba="0.910 0.368 0.980 0.800" /><geom name="obstacle_7" type="sphere" size="0.050" pos="0.265 0.211 0.308" contype="1" conaffinity="1" mass="0.0" rgba="0.947 0.035 0.373 0.800" /><geom name="obstacle_8" type="sphere" size="0.050" pos="0.294 -0.212 0.390" contype="1" conaffinity="1" mass="0.0" rgba="0.922 0.263 0.560 0.800" /><geom name="obstacle_9" type="sphere" size="0.050" pos="0.215 0.287 0.352" contype="1" conaffinity="1" mass="0.0" rgba="0.034 0.480 0.217 0.800" /></worldbody>
+  
+</mujoco>

@@ -46,21 +46,18 @@ if __name__ == '__main__':
     key_listener.start()
 
     import threading,tkinter as tk
-    def start_minimal_gui():
+    def startGui():
         root = tk.Tk()
         root.title("WSL2 X11 Bridge")
         root.geometry("1x1")
-        # 可选：最小化窗口 
         root.iconify()
-        # 启动tk主循环
         root.mainloop()
 
-    def run_gui_in_background():
-        gui_thread = threading.Thread(target=start_minimal_gui, daemon=True)  # 守护线程，主线程退出则自动结束
+    def runGuiThread():
+        gui_thread = threading.Thread(target=startGui, daemon=True)
         gui_thread.start()
-        print("满足X11依赖")
 
-    run_gui_in_background()
+    runGuiThread()
 
     while True:
         if key_states[keyboard.Key.up]:
