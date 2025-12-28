@@ -19,6 +19,7 @@ bash install_pinocchio.sh
 ## Tutorials
 |file|url|
 |----|-------|
+|panda_dynamics_drag.py|[Mujoco 仿真动力学拖动示教(Drag Teaching)](https://www.bilibili.com/video/BV1k9v6B3EQS/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |panda_dynamics_hold.py|[Mujoco 使用 Pinocchio 进行逆动力学及阻抗力矩控制维持当前位置](https://www.bilibili.com/video/BV1nVqDBTEma/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |null_space.py|[Mujoco 冗余机械臂零空间 Null Space 运动仿真](https://www.bilibili.com/video/BV1bUmFBiEv1/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |get_workspace.py|[Mujoco 蒙特卡洛采样统计机械臂可达工作空间（非Matlab）](https://www.bilibili.com/video/BV1tDmFBNE1d/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
