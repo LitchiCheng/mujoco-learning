@@ -4,7 +4,7 @@ import mujoco.viewer
 from xml.etree import ElementTree as ET
 from io import StringIO
 import numpy as np
-import utils
+import src.utils as utils
 
 class CustomViewer:
     def __init__(self, model_path, distance=3, azimuth=0, elevation=-30):
