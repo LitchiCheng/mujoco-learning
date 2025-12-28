@@ -4,6 +4,7 @@ import mujoco.viewer
 from xml.etree import ElementTree as ET
 from io import StringIO
 import numpy as np
+import utils
 
 class CustomViewer:
     def __init__(self, model_path, distance=3, azimuth=0, elevation=-30):
@@ -129,13 +130,24 @@ class CustomViewer:
     def getBodyIdByName(self, name):
         return self.getBodyIdsByName()[name]
     
-    def getBodyPosByName(self, name):
+    def getBodyPositionByName(self, name):
         body_id = self.getBodyIdByName(name)
         return self.data.body(body_id).xpos.copy()
     
     def getBodyQuatByName(self, name):
         body_id = self.getBodyIdByName(name)
         return self.data.body(body_id).xquat.copy()
+    
+    def getBodyPoseByName(self, name):
+        position = self.getBodyPositionByName(name)
+        quat = self.getBodyQuatByName(name)
+        return np.concatenate([position, quat])
+    
+    def getBodyPoseEulerByName(self, name):
+        position = self.getBodyPositionByName(name)
+        quat = self.getBodyQuatByName(name)
+        euler = utils.quat2euler(quat)
+        return np.concatenate([position, euler])
 
     def run_loop(self):
         self.handle = mujoco.viewer.launch_passive(self.model, self.data)

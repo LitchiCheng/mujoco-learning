@@ -85,3 +85,38 @@ def euler2quat(roll, pitch, yaw):
     y = cy * sp * cr + sy * cp * sr
     z = -cy * sp * sr + sy * cp * cr
     return np.array([w, x, y, z])
+
+def quat2euler(quat):
+    """
+    将四元数（[w, x, y, z]）转换为欧拉角（roll, pitch, yaw），弧度制。
+    对应关系：与euler2quat完全匹配，欧拉角为X轴(roll)-Y轴(pitch)-Z轴(yaw)旋转顺序。
+    
+    参数：
+        quat: 长度为4的数组/列表，四元数格式为[w, x, y, z]（w为实部，x/y/z为虚部）
+    
+    返回：
+        roll: 绕X轴旋转的角度（弧度）
+        pitch: 绕Y轴旋转的角度（弧度）
+        yaw: 绕Z轴旋转的角度（弧度）
+    """
+    # 提取四元数各分量，确保为浮点数类型
+    w, x, y, z = map(float, quat)
+    # 计算俯仰角（pitch，Y轴）的正弦值，并用clip限制范围（避免浮点误差导致超出[-1,1]）
+    sin_pitch = 2 * (w * y - x * z)
+    sin_pitch = np.clip(sin_pitch, -1.0, 1.0)
+    # 常规情况（非万向锁状态）：pitch ≠ ±π/2
+    if np.abs(sin_pitch) < 0.9999999:
+        # 计算滚转角（roll，X轴）
+        roll = np.arctan2(2 * (w * x + y * z), 1 - 2 * (x**2 + y**2))
+        # 计算俯仰角（pitch，Y轴）
+        pitch = np.arcsin(sin_pitch)
+        # 计算偏航角（yaw，Z轴）
+        yaw = np.arctan2(2 * (w * z + x * y), 1 - 2 * (y**2 + z**2))
+    # 万向锁状态（pitch ≈ π/2 或 ≈ -π/2），此时roll与yaw耦合，固定roll=0
+    else:
+        # 俯仰角取极值（π/2 或 -π/2）
+        pitch = np.pi / 2 if sin_pitch > 0 else -np.pi / 2
+        # 计算偏航角（yaw），roll固定为0
+        yaw = np.arctan2(2 * (x * y + w * z), 1 - 2 * (x**2 + z**2))
+        roll = 0.0  # 万向锁状态下滚转角无法唯一确定，固定为0
+    return roll, pitch, yaw
