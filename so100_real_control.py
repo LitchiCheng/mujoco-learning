@@ -1,6 +1,6 @@
 import mujoco
 import time
-import mujoco_viewer
+import mujoco_viewer as mujoco_viewer
 import numpy as np
 import math
 import zmq

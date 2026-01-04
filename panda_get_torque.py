@@ -1,8 +1,9 @@
-import mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer
 import numpy as np
 # matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import time,math
+import src.ploter as ploter
 
 class Test(mujoco_viewer.CustomViewer):
     def __init__(self, path):
@@ -16,31 +17,20 @@ class Test(mujoco_viewer.CustomViewer):
         self.initial_pos = self.model.key_qpos[0][:7]  # 仅取7个关节维度
         # 初始化机械臂到初始位置（仅一次）
         self.data.qpos[:7] = self.initial_pos
-       
+        # self.plotter = ploter.Ploter()
+
     def runFunc(self):
         if True:
-            self.data.qpos[:7] = self.initial_pos
-            self.time_history.append(self.data.time)
-            # self.torque_history.append(self.data.qfrc_actuator.copy())  # 存储关节力矩
-            # print(self.data.qfrc_actuator)
-            print(f"Torque: {np.round(self.data.qfrc_actuator[:7], 2)}")
-            # if len(self.torque_history) > 20000:
-            #     torque_history = np.array(self.torque_history)
-            #     # 绘制关节力矩曲线
-            #     plt.figure(figsize=(10, 6))
-            #     for i in range(torque_history.shape[1]):
-            #         plt.subplot(torque_history.shape[1], 1, i + 1)
-            #         plt.plot(self.time_history, torque_history[:, i], label=f'Joint {i + 1} Torque')
-            #         plt.xlabel('Time (s)')
-            #         plt.ylabel('Torque (N·m)')
-            #         plt.title(f'Joint {i + 1} Torque Over Time')
-            #         plt.legend()
-            #         plt.grid(True)
-            #     # plt.tight_layout()
-            #     plt.show()
+            self.data.ctrl[:7] = self.initial_pos
+            # self.data.qfrc_applied[0] = 5.0
+            # self.time_history.append(self.data.time)
+            # print(f"Torque: {self.data.qfrc_actuator[:7].round(2)}")
+            print(f"Torque applied: {self.data.xfrc_applied[:7].round(4)}")
+            # for i in range(7):
+            #     self.plotter.update_data(0, self.data.qfrc_actuator[i].round(2), label="qfrc_actuator_"+str(i))
 
 if __name__ == "__main__":
-    test = Test("./model/franka_emika_panda/scene_pos.xml")
+    test = Test("./model/franka_emika_panda/scene.xml")
     test.run_loop()
 
     

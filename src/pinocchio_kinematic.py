@@ -112,8 +112,8 @@ class Kinematics:
         self.opti.set_value(self.var_q_last, self.init_data) # for smooth
 
         try:
-            # sol = self.opti.solve()
-            sol = self.opti.solve_limited()
+            sol = self.opti.solve()
+            # sol = self.opti.solve_limited()
 
             sol_q = self.opti.value(self.var_q)
             # self.smooth_filter.add_data(sol_q)

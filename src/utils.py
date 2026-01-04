@@ -120,3 +120,9 @@ def quat2euler(quat):
         yaw = np.arctan2(2 * (x * y + w * z), 1 - 2 * (x**2 + z**2))
         roll = 0.0  # 万向锁状态下滚转角无法唯一确定，固定为0
     return roll, pitch, yaw
+
+def dampedPinv(J, lambda_d=0.1):
+    J_T = J.T
+    damping = lambda_d ** 2 * np.eye(J.shape[0])
+    J_pinv_damped = np.dot(J_T, np.linalg.inv(np.dot(J, J_T) + damping))
+    return J_pinv_damped

@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mujoco
 import time
-import mujoco_viewer
+import mujoco_viewer as mujoco_viewer
 import numpy as np
 
 class Test(mujoco_viewer.CustomViewer):

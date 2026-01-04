@@ -1,6 +1,6 @@
 import mujoco
 import numpy as np
-import mujoco_viewer
+import mujoco_viewer as mujoco_viewer
 import src.kdl_kinematic as kdl_kinematic
 import time
 import os
