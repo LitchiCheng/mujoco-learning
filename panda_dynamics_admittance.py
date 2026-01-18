@@ -56,12 +56,12 @@ class PandaEnv(mujoco_viewer.CustomViewer):
 
             F_ref = np.zeros(6)
             F_meas = np.array([0, 0, 0, 0, 0, 0])
-            self.axis_index = 0
-            F_meas[self.axis_index] = -1
+            self.axis_index = 3
+            F_meas[self.axis_index] = -5
             F_e = F_meas - F_ref
 
             self.M_d = np.diag([10] * 6)
-            self.B_d = np.diag([0] * 6)
+            self.B_d = np.diag([1] * 6)
             self.K_d = np.diag([50] * 6)
             # M_d·ddq + B_d·dq + K_d·(q_des - q) = F_e
             dd_ee = np.linalg.inv(self.M_d) @ (F_e - self.B_d @ self.now_ee_vel - self.K_d @ ee_pos_err)
