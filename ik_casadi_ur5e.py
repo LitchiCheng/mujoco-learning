@@ -1,10 +1,10 @@
 import mujoco
 import numpy as np
-import mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
 import src.pinocchio_kinematic as pinocchio_kinematic
 import time
 import os
-import utils
+import src.utils as utils
 
 class RobotController(mujoco_viewer.CustomViewer):    
     def __init__(self, scene_path, arm_path):

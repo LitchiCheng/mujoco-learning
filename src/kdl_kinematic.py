@@ -96,7 +96,7 @@ class Kinematics:
 if __name__ == "__main__":
     import sys, os
     sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-    import utils
+    import src.utils as utils
 
     arm = Kinematics("ee_center_body")
     urdf_file = "../model/franka_panda_urdf/robots/panda_arm.urdf"

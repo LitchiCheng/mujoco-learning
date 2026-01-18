@@ -30,6 +30,9 @@ class CustomViewer:
     def viewport(self):
         return self.handle.viewport
     
+    def setTimestep(self, timestep):
+        self.model.opt.timestep = timestep
+    
     def addVisuGeom(self, geoms_pos:np.ndarray, geoms_type:list, geoms_size:np.ndarray, geoms_rgba:np.ndarray):
         now_user_geom_num = self.handle.user_scn.ngeom
         self.handle.user_scn.ngeom = 0

@@ -1,10 +1,8 @@
 import mujoco
 import numpy as np
-import mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer
 import src.pinocchio_kinematic as pinocchio_kinematic
-import time
-import os
-import utils
+import src.utils as utils
 
 class RobotController(mujoco_viewer.CustomViewer):    
     def __init__(self, scene_path, arm_path):
@@ -12,10 +10,9 @@ class RobotController(mujoco_viewer.CustomViewer):
         self.scene_path = scene_path
         self.arm_path = arm_path
         
-        # 初始化逆运动学
-        self.arm = pinocchio_kinematic.Kinematics("link7")
+        self.arm = pinocchio_kinematic.Kinematics("ee_center_body")
         self.arm.buildFromMJCF(arm_path)
-        self.end_effector_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "link7")
+        self.end_effector_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "ee_center_body")
         self.last_dof = None
         
     def runBefore(self):
@@ -36,14 +33,14 @@ class RobotController(mujoco_viewer.CustomViewer):
     
     def runFunc(self):
         self.x += 0.001
-        if self.x > 0.3:
-            self.x = 0.3
+        if self.x > 0.5:
+            self.x = 0.5
         tf = utils.transform2mat(self.x, self.y, self.z, np.pi, 0, 0)
         self.dof, info = self.arm.ik(tf, current_arm_motor_q=self.last_dof)
         print("ik result", info["success"])
         self.last_dof = self.dof
-        self.data.qpos[:7] = self.dof[:7]
-        print("ee pos", self.getBodyPosByName("link7"))
+        self.data.ctrl[:7] = self.dof[:7]
+        print("ee pos", self.getBodyPoseByName("link7"))
 
 
 if __name__ == "__main__":

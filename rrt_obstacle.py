@@ -2,11 +2,11 @@ import mujoco
 import ompl.base as ob
 import ompl.geometric as og
 import time
-import mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
 import src.pinocchio_kinematic as pinocchio_kinematic
 import src.kdl_kinematic as kdl_kinematic
 import src.key_listener as key_listener
-import utils
+import src.utils as utils
 import numpy as np
 from pynput import keyboard
 

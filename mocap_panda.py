@@ -1,7 +1,7 @@
 import numpy as np
 import pinocchio as pin
 import time
-import mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
 from pynput import keyboard
 
 key_states = {

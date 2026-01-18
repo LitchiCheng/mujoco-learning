@@ -2,9 +2,9 @@ import src.kdl_kinematic as kdl_kinematic
 import PyKDL
 import numpy as np
 import os
-import mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
 import mujoco
-import utils
+import src.utils as utils
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D

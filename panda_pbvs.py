@@ -1,9 +1,9 @@
 import pinocchio 
-import mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
 import time
 import numpy as np
 import mujoco
-import utils
+import src.utils as utils
 
 class PandaPbvs(mujoco_viewer.CustomViewer):
     def __init__(self, scene_xml, pin_xml):

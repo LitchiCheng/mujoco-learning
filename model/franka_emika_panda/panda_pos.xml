@@ -276,13 +276,13 @@
   </equality>
 
   <actuator>
-    <position name="joint1_pos" joint="joint1" kp="100" kv="50" ctrlrange="-6.28 6.28"/>
-    <position name="joint2_pos" joint="joint2" kp="100" kv="50" ctrlrange="-6.28 6.28"/>
-    <position name="joint3_pos" joint="joint3" kp="100" kv="50" ctrlrange="-6.28 6.28"/>
-    <position name="joint4_pos" joint="joint4" kp="100" kv="50" ctrlrange="-6.28 6.28"/>
-    <position name="joint5_pos" joint="joint5" kp="100" kv="50" ctrlrange="-6.28 6.28"/>
-    <position name="joint6_pos" joint="joint6" kp="100" kv="50" ctrlrange="-6.28 6.28"/>
-    <position name="joint7_pos" joint="joint7" kp="100" kv="50" ctrlrange="-6.28 6.28"/>
+    <position name="joint1_pos" joint="joint1" kp="800" kv="80" ctrlrange="-6.28 6.28" gear="1.0"/>
+    <position name="joint2_pos" joint="joint2" kp="800" kv="80" ctrlrange="-6.28 6.28" gear="1.0"/>
+    <position name="joint3_pos" joint="joint3" kp="800" kv="80" ctrlrange="-6.28 6.28" gear="1.0"/>
+    <position name="joint4_pos" joint="joint4" kp="800" kv="80" ctrlrange="-6.28 6.28" gear="1.0"/>
+    <position name="joint5_pos" joint="joint5" kp="800" kv="80" ctrlrange="-6.28 6.28" gear="1.0"/>
+    <position name="joint6_pos" joint="joint6" kp="800" kv="80" ctrlrange="-6.28 6.28" gear="1.0"/>
+    <position name="joint7_pos" joint="joint7" kp="800" kv="80" ctrlrange="-6.28 6.28" gear="1.0"/>
 
     <!-- 保留抓手控制 -->
     <general class="panda" name="actuator8" tendon="split"

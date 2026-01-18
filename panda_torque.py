@@ -1,4 +1,4 @@
-import mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
 import numpy as np
 # matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -6,7 +6,7 @@ import time,math
 import src.pid_controller as pid
 import src.kdl_kinematic as kdl_kinematic
 import mujoco
-import utils
+import src.utils as utils
 
 
 class RobotController(mujoco_viewer.CustomViewer):    

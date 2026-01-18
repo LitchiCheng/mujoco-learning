@@ -6,7 +6,7 @@ import toppra.constraint as constraint
 import toppra.algorithm as algo
 import pinocchio
 import time
-import mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
 
 class Test(mujoco_viewer.CustomViewer):
     def __init__(self, path):

@@ -1,9 +1,9 @@
 import pinocchio 
-import mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
 import time
 import numpy as np
 import mujoco
-import utils
+import src.utils as utils
 import src.pinocchio_kinematic as pinocchio_kinematic
 
 class PandaPbvs(mujoco_viewer.CustomViewer):

@@ -1,4 +1,4 @@
-import mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
 import time
 import mujoco
 import numpy as np
