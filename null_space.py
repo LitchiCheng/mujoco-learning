@@ -1,5 +1,5 @@
 import pinocchio 
-import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer
 import time
 import numpy as np
 import mujoco

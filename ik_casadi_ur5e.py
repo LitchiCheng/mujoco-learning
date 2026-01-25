@@ -1,6 +1,6 @@
 import mujoco
 import numpy as np
-import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer
 import src.pinocchio_kinematic as pinocchio_kinematic
 import time
 import os

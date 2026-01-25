@@ -1,4 +1,4 @@
-import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer
 import numpy as np
 # matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt

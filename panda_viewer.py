@@ -1,4 +1,4 @@
-import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer
 import time
 import mujoco
 import numpy as np
@@ -11,8 +11,9 @@ class PandaEnv(mujoco_viewer.CustomViewer):
     
     def runBefore(self):
         # 第一个关键点的位置通常是home位置
-        self.initial_pos = self.model.key_qpos[0]  
-        print("Initial position: ", self.initial_pos)
+        self.initial_pos = self.model.qpos0.copy()
+        print("qpos0 position: ", self.initial_pos)
+        print("home position: ", self.model.key_pos[0])
         for i in range(self.model.nq):
             self.data.qpos[i] = self.initial_pos[i]  # 设定初始位置
         self.end_effector_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, 'ee_center_body')

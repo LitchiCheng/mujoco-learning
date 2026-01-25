@@ -1,4 +1,4 @@
-import src.mujoco_viewer as mujoco_viewer as mujoco_viewer 
+import src.mujoco_viewer as mujoco_viewer 
 import mujoco
 import src.kdl_kinematic as kdl_kinematic
 import src.pinocchio_kinematic as pinocchio_kinematic

@@ -1,6 +1,6 @@
 import mujoco
 import time
-import src.mujoco_viewer as mujoco_viewer as mujoco_viewer
+import src.mujoco_viewer as mujoco_viewer
 import numpy as np
 
 class Test(mujoco_viewer.CustomViewer):
