@@ -133,6 +133,22 @@ class CustomViewer:
     def getBodyIdByName(self, name):
         return self.getBodyIdsByName()[name]
     
+    def getGeomIdByName(self, geom_name):
+        """根据geom名称获取其索引"""
+        for i in range(self.model.ngeom):
+            name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_GEOM, i)
+            if name == geom_name:
+                return i
+        return -1
+    
+    def setGeomPositionByName(self, geom_name, position):
+        """根据geom名称设置其位置"""
+        geom_id = self.getGeomIdByName(geom_name)
+        if geom_id == -1:
+            raise ValueError(f"未找到geom名称为{geom_name}的geom")
+        self.model.geom_pos[geom_id] = position.copy()
+        mujoco.mj_forward(self.model, self.data)
+
     def getBodyPositionByName(self, name):
         body_id = self.getBodyIdByName(name)
         return self.data.body(body_id).xpos.copy()
