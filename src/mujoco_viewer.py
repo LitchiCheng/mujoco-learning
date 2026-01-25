@@ -148,6 +148,13 @@ class CustomViewer:
             raise ValueError(f"未找到geom名称为{geom_name}的geom")
         self.model.geom_pos[geom_id] = position.copy()
         mujoco.mj_forward(self.model, self.data)
+    
+    def getGeomPositionByName(self, geom_name):
+        """根据geom名称获取其位置"""
+        geom_id = self.getGeomIdByName(geom_name)
+        if geom_id == -1:
+            raise ValueError(f"未找到geom名称为{geom_name}的geom")
+        return self.data.geom_pos[geom_id].copy()
 
     def getBodyPositionByName(self, name):
         body_id = self.getBodyIdByName(name)
@@ -167,6 +174,24 @@ class CustomViewer:
         quat = self.getBodyQuatByName(name)
         euler = utils.quat2euler(quat)
         return np.concatenate([position, euler])
+    
+    def getContactInfo(self):
+        info = {}
+        for i in range(self.data.ncon):
+            contact = self.data.contact[i]
+            # 获取几何体对应的body_id
+            body1_id = self.model.geom_bodyid[contact.geom1]
+            body2_id = self.model.geom_bodyid[contact.geom2]
+            # 通过mj_id2name转换body_id为名称
+            body1_name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_BODY, body1_id)
+            body2_name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_BODY, body2_id)
+            info["pair"+str(i)] = {}
+            info["pair"+str(i)]["geom1"] = contact.geom1
+            info["pair"+str(i)]["geom2"] = contact.geom2
+            info["pair"+str(i)]["pos"] = contact.pos.copy()
+            info["pair"+str(i)]["body1_name"] = body1_name
+            info["pair"+str(i)]["body2_name"] = body2_name
+        return info
 
     def run_loop(self):
         self.handle = mujoco.viewer.launch_passive(self.model, self.data)
