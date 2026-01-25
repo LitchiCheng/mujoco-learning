@@ -13,11 +13,13 @@ class PandaEnv(mujoco_viewer.CustomViewer):
         # 第一个关键点的位置通常是home位置
         self.initial_pos = self.model.qpos0.copy()
         print("qpos0 position: ", self.initial_pos)
-        print("home position: ", self.model.key_pos[0])
+        self.initial_pos = self.model.key_qpos[0].copy()
+        print("home position: ", self.model.key_qpos[0])
+        print("qpos0 spring:", self.model.qpos_spring)
         for i in range(self.model.nq):
             self.data.qpos[i] = self.initial_pos[i]  # 设定初始位置
         self.end_effector_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, 'ee_center_body')
-    
+
     def runFunc(self):
         for i in range(self.model.nq):
             self.data.qpos[i] = self.initial_pos[i]
@@ -27,9 +29,9 @@ class PandaEnv(mujoco_viewer.CustomViewer):
         self.ee_quat_euler_rad = rot.as_euler('xyz')
         self.ee_quat_euler_angle = rot.as_euler('xyz', degrees=True)
         # 打印出body的位置，然后填入scene_withtarget.xml文件中,运行就可以校验ee_center_body是否是你想要控制的body
-        print("Initial end-effector position and euler angles: ", self.initial_ee_pos, self.ee_quat_euler_angle) 
+        # print("Initial end-effector position and euler angles: ", self.initial_ee_pos, self.ee_quat_euler_angle) 
         self.ee_orient_norm = self.ee_quat_euler_angle / np.linalg.norm(self.ee_quat_euler_angle)
-        print("ee normal orient: ", self.ee_orient_norm) 
+        # print("ee normal orient: ", self.ee_orient_norm) 
         time.sleep(0.01)
 
 if __name__ == "__main__":
