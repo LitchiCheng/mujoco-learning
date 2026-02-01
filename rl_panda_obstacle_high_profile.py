@@ -53,9 +53,9 @@ class PandaObstacleEnv(gym.Env):
 
         self.model = mujoco.MjModel.from_xml_path('./model/franka_emika_panda/scene_pos_with_obstacles.xml')
         self.data = mujoco.MjData(self.model)
-        for i in range(self.model.ngeom):
-            if self.model.geom_group[i] == 3:
-                self.model.geom_conaffinity[i] = 0
+        # for i in range(self.model.ngeom):
+        #     if self.model.geom_group[i] == 3:
+        #         self.model.geom_conaffinity[i] = 0
         
         if self.visualize:
             self.handle = mujoco.viewer.launch_passive(self.model, self.data)
@@ -90,10 +90,13 @@ class PandaObstacleEnv(gym.Env):
         #     mass="0.0" 
         #     rgba="0.300 0.300 0.300 0.800" 
         # />
-        # 并在init函数中初始化障碍物的位置和大小    
-        self.obstacle_position = np.array([0.3, 0.2, 0.5], dtype=np.float32)
-        self.obstacle_size = 0.06
-        # self.obstacle_visu_rgba = [0.3, 0.3, 0.3, 0.8]
+        # 并在init函数中初始化障碍物的位置和大小   
+        for i in range(self.model.ngeom):
+            name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_GEOM, i)
+            if name == "obstacle_0":
+                self.obstacle_id_1 = i 
+        self.obstacle_position = np.array(self.model.geom_pos[self.obstacle_id_1], dtype=np.float32)
+        self.obstacle_size = self.model.geom_size[self.obstacle_id_1][0]
 
         self.last_action = self.home_joint_pos
 
@@ -121,9 +124,13 @@ class PandaObstacleEnv(gym.Env):
         # 重置关节到home位姿
         mujoco.mj_resetData(self.model, self.data)
         self.data.qpos[:7] = self.home_joint_pos
+        self.data.qpos[7:] = [0.04,0.04]
         mujoco.mj_forward(self.model, self.data)
 
-        self.goal_position = np.array([0.4, self.np_random.uniform(-0.3, 0.3), 0.4], dtype=np.float32)
+        self.goal_position = np.array([self.goal_position[0], self.np_random.uniform(-0.3, 0.3), self.goal_position[2]], dtype=np.float32)
+        self.obstacle_position = np.array([self.obstacle_position[0], self.np_random.uniform(-0.3, 0.3), self.obstacle_position[2]], dtype=np.float32)
+        self.model.geom_pos[self.obstacle_id_1] = self.obstacle_position
+        mujoco.mj_step(self.model, self.data)
         
         if self.visualize:
             self._render_scene()
@@ -134,29 +141,29 @@ class PandaObstacleEnv(gym.Env):
 
     def _get_observation(self) -> np.ndarray:
         joint_pos = self.data.qpos[:7].copy().astype(np.float32)
-        return np.concatenate([joint_pos, self.goal_position, self.obstacle_position, np.array([self.obstacle_size], dtype=np.float32)])
+        return np.concatenate([joint_pos, self.goal_position, self.obstacle_position + np.random.normal(0, 0.001, size=3), np.array([self.obstacle_size], dtype=np.float32)])
 
     def _calc_reward(self, joint_angles: np.ndarray, action: np.ndarray) -> tuple[np.ndarray, float]:
         now_ee_pos = self.data.body(self.end_effector_id).xpos.copy()
         dist_to_goal = np.linalg.norm(now_ee_pos - self.goal_position)
-    
-        # 非线性距离奖励（保持不变）
+
+        # 非线性距离奖励
         if dist_to_goal < self.goal_arrival_threshold:
-            distance_reward = 10.0
+            distance_reward = 20.0*(1.0+(1.0-(dist_to_goal / self.goal_arrival_threshold)))
         elif dist_to_goal < 2*self.goal_arrival_threshold:
-            distance_reward = 5.0
+            distance_reward = 10.0*(1.0+(1.0-(dist_to_goal / 2*self.goal_arrival_threshold)))
         elif dist_to_goal < 3*self.goal_arrival_threshold:
-            distance_reward = 1.0
+            distance_reward = 5.0*(1.0+(1.0-(dist_to_goal / 3*self.goal_arrival_threshold)))
         else:
             distance_reward = 1.0 / (1.0 + dist_to_goal)
         
         # 平滑惩罚
-        smooth_penalty = 0.1 * np.linalg.norm(action - self.last_action)
+        smooth_penalty = 0.001 * np.linalg.norm(action - self.last_action)
 
-        # 碰撞惩罚（保持不变）
-        contact_reward = 1.0 * self.data.ncon
+        # 碰撞惩罚
+        contact_reward = 10.0 * self.data.ncon
         
-        # 关节角度限制惩罚（保持不变）
+        # 关节角度限制惩罚
         joint_penalty = 0.0
         for i in range(7):
             min_angle, max_angle = self.model.jnt_range[:7][i]
@@ -165,12 +172,13 @@ class PandaObstacleEnv(gym.Env):
             elif joint_angles[i] > max_angle:
                 joint_penalty += 0.5 * (joint_angles[i] - max_angle)
         
-        # time_penalty = 0.01
+        time_penalty = 0.001 * (time.time() - self.start_t)
         
         total_reward = (distance_reward 
                     - contact_reward 
                     - smooth_penalty 
-                    - joint_penalty)
+                    - joint_penalty
+                    - time_penalty)
         
         self.last_action = action.copy()
         
@@ -183,19 +191,38 @@ class PandaObstacleEnv(gym.Env):
             scaled_action[i] = joint_ranges[i][0] + (action[i] + 1) * 0.5 * (joint_ranges[i][1] - joint_ranges[i][0])
         
         self.data.ctrl[:7] = scaled_action
+        self.data.qpos[7:] = [0.04,0.04]
         mujoco.mj_step(self.model, self.data)
         
         reward, dist_to_goal, collision = self._calc_reward(self.data.qpos[:7], action)
         terminated = False
 
         if collision:
-            print("collision happened, ", self.data.ncon)
+            # print("collision happened, ", self.data.ncon)
+            # info = {}
+            # for i in range(self.data.ncon):
+            #     contact = self.data.contact[i]
+            #     # 获取几何体对应的body_id
+            #     body1_id = self.model.geom_bodyid[contact.geom1]
+            #     body2_id = self.model.geom_bodyid[contact.geom2]
+            #     # 通过mj_id2name转换body_id为名称
+            #     body1_name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_BODY, body1_id)
+            #     body2_name = mujoco.mj_id2name(self.model, mujoco.mjtObj.mjOBJ_BODY, body2_id)
+            #     info["pair"+str(i)] = {}
+            #     info["pair"+str(i)]["geom1"] = contact.geom1
+            #     info["pair"+str(i)]["geom2"] = contact.geom2
+            #     info["pair"+str(i)]["pos"] = contact.pos.copy()
+            #     info["pair"+str(i)]["body1_name"] = body1_name
+            #     info["pair"+str(i)]["body2_name"] = body2_name
+            # print(info)
             reward -= 10.0
             terminated = True
 
         if dist_to_goal < self.goal_arrival_threshold:
             terminated = True
-        # print(f"[奖励] 距离目标: {dist_to_goal:.3f}, 奖励: {reward:.3f}")
+            print(f"[成功] 距离目标: {dist_to_goal:.3f}, 奖励: {reward:.3f}")
+        # else:
+        #     print(f"[失败] 距离目标: {dist_to_goal:.3f}, 奖励: {reward:.3f}")
 
         if not terminated:
             if time.time() - self.start_t > 20.0:
@@ -227,7 +254,7 @@ class PandaObstacleEnv(gym.Env):
 
 def train_ppo(
     n_envs: int = 24,
-    total_timesteps: int = 40_000_000,  # 本次训练的新增步数
+    total_timesteps: int = 80_000_000,
     model_save_path: str = "panda_ppo_reach_target",
     visualize: bool = False,
     resume_from: Optional[str] = None
@@ -244,12 +271,24 @@ def train_ppo(
     )
     
     if resume_from is not None:
-        model = PPO.load(resume_from, env=env)  # 加载时需传入当前环境
+        model = PPO.load(resume_from, env=env)
     else:
+        # POLICY_KWARGS = dict(
+        #     activation_fn=nn.ReLU,
+        #     net_arch=[dict(pi=[256, 128], vf=[256, 128])]
+        # )
+        
+        
         POLICY_KWARGS = dict(
-            activation_fn=nn.ReLU,
-            net_arch=[dict(pi=[256, 128], vf=[256, 128])]
+            activation_fn=nn.LeakyReLU,
+            net_arch=[
+                dict(
+                    pi=[512, 256, 128],
+                    vf=[512, 256, 128]
+                )
+            ]
         )
+
         model = PPO(
             policy="MlpPolicy",
             env=env,
@@ -259,7 +298,11 @@ def train_ppo(
             batch_size=2048,       
             n_epochs=10,           
             gamma=0.99,
-            learning_rate=2e-4,
+            # ent_coef=0.02,  # 增加熵系数，保留后期探索以提升泛化性
+            ent_coef = 0.001, 
+            clip_range=0.15,  # 限制策略更新幅度
+            max_grad_norm=0.5,  # 梯度裁剪防止爆炸
+            learning_rate=lambda f: 1e-4 * (1 - f),  # 学习率线性衰减（初始1e-4，后期逐步降低）
             device="cuda" if torch.cuda.is_available() else "cpu",
             tensorboard_log="./tensorboard/panda_obstacle_avoidance/"
         )
@@ -281,13 +324,7 @@ def test_ppo(
 ) -> None:
     env = PandaObstacleEnv(visualize=True)
     model = PPO.load(model_path, env=env)
-    
-    record_gif = False
-    frames = [] if record_gif else None
-    render_scene = None  
-    render_context = None 
-    pixel_buffer = None 
-    viewport = None
+
     
     success_count = 0
     print(f"测试轮数: {total_episodes}")
@@ -298,8 +335,12 @@ def test_ppo(
         episode_reward = 0.0
         
         while not done:
+            obs = env._get_observation()
+            # print(f"观察: {obs}")
             action, _states = model.predict(obs, deterministic=True)
+            # action += np.random.normal(0, 0.002, size=7)  # 加入噪声
             obs, reward, terminated, truncated, info = env.step(action)
+            # print(f"动作: {action}, 奖励: {reward}, 终止: {terminated}, 截断: {truncated}, 信息: {info}")
             episode_reward += reward
             done = terminated or truncated
         
@@ -314,22 +355,25 @@ def test_ppo(
 
 
 if __name__ == "__main__":
-    import os 
-    os.system("rm -rf /home/dar/dev/robot/mujocobin/mujoco-learning/tensorboard/panda_obstacle_avoidance/*")
-    delete_flag_file()
     TRAIN_MODE = True  # 设为True开启训练模式
-    MODEL_PATH = "assets/model/rl_obstacle_avoidance_checkpoint/panda_obstacle_avoidance_v1"
-    RESUME_MODEL_PATH = "assets/model/rl_obstacle_avoidance_checkpoint/panda_obstacle_avoidance_v1"
+    if TRAIN_MODE:
+        import os 
+        os.system("rm -rf /home/dar/mujoco-bin/mujoco-learning/tensorboard*")
+    delete_flag_file()
+    MODEL_PATH = "assets/model/rl_obstacle_avoidance_checkpoint/panda_obstacle_avoidance_v3"
+    RESUME_MODEL_PATH = "assets/model/rl_obstacle_avoidance_checkpoint/panda_obstacle_avoidance_v2"
     if TRAIN_MODE:
         train_ppo(
-            n_envs=256,                
-            total_timesteps=40_000_000,
+            n_envs=64,                
+            total_timesteps=60_000_000,
             model_save_path=MODEL_PATH,
             visualize=True,
+            # resume_from=RESUME_MODEL_PATH
             resume_from=None
         )
     else:
         test_ppo(
             model_path=MODEL_PATH,
-            total_episodes=15,
+            total_episodes=100,
         )
+    os.system("date")

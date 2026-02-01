@@ -24,6 +24,7 @@
       <geom name="Y" type="cylinder" size="0.005" fromto="0 0 0 0 0.3 0" rgba="0 1 0 1" contype="0" conaffinity="0" />
       <geom name="Z" type="cylinder" size="0.005" fromto="0 0 0 0 0 0.3" rgba="0 0 1 1" contype="0" conaffinity="0" />
     </body>
+
     <body name="obstacle_0">  
       <geom name="obstacle_0" 
         type="sphere" 
@@ -35,6 +36,17 @@
         rgba="0.300 0.300 0.300 0.800" 
       />
     </body>
+    <!-- <body name="obstacle_1">
+      <geom name="obstacle_1" 
+        type="sphere" 
+        size="0.060" 
+        pos="0.400 -0.400 0.600" 
+        contype="1" 
+        conaffinity="1" 
+        mass="0.0" 
+        rgba="0.300 0.300 0.300 0.800" 
+      />
+    </body> -->
   
   </worldbody>
 

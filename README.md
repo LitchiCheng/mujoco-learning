@@ -19,6 +19,7 @@ bash install_pinocchio.sh
 ## Tutorials
 |file|url|
 |----|-------|
+|rl_panda_obstacle_high_profile.py|[Mujoco 开源机械臂 RL 强化学习避障、绕障](https://www.bilibili.com/video/BV1bd6sBpEvT/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |move_obstacles.py|[Mujoco 如何在RL中动态或随机更改障碍物位置、开关碰撞计算以及碰撞信息](https://www.bilibili.com/video/BV1FXzQBjEk1/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |panda_dynamics_admittance.py|[Mujoco 末端（笛卡尔空间）导纳控制（Admittance）仿真及代码讲解](https://www.bilibili.com/video/BV1FhkxBjEvr/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |get_ee_wrench.py|[Mujoco 仿真 Dynamics 动力学获得末端执行器 Wrench](https://www.bilibili.com/video/BV1ynirB2Ezy/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
