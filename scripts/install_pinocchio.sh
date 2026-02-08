@@ -1,5 +1,7 @@
 #!/bin/bash 
 
+set -e
+
 function installEigenpy () {
   # install eigenpy
   uv pip install numpy
@@ -14,7 +16,7 @@ function installEigenpy () {
     -DCMAKE_INSTALL_PREFIX="$VIRTUAL_ENV" \
     -DPYTHON_EXECUTABLE=$(which python)
 
-  make -j8 
+  make -j4 
   make install
   cd ../../
 }
@@ -31,15 +33,18 @@ function installCasADi(){
   cmake .. -DCMAKE_BUILD_TYPE=Release \
       -DPYTHON_EXECUTABLE=$(which python) \
       -DCMAKE_INSTALL_PREFIX=$VIRTUAL_ENV \
+      -DWITH_BUILD_REQUIRED=ON \
+      -DWITH_BUILD_IPOPT=ON \
       -DWITH_IPOPT=ON \
       -DWITH_PYTHON=ON
 
-  make -j$(nproc)
+  make -j4
   make install
   cd ../../
 }
 
 function installPinocchio(){
+  sudo apt install liburdfdom-headers-dev liburdfdom-dev -y
   # install pinocchio
   if [ -d "pinocchio" ]; then
       rm -rf pinocchio
@@ -62,11 +67,11 @@ function installPinocchio(){
     -Dcasadi_DIR="${VIRTUAL_ENV}/lib/cmake/casadi" \
     -DCMAKE_LIBRARY_PATH="${VIRTUAL_ENV}/lib"
 
-  make -j$(nproc)
+  make -j4
   make install
 }
 
 source ../.venv/bin/activate
-# installEigenpy
-# installCasADi
+inscdtallEigenpy
+installCasADi
 installPinocchio

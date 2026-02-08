@@ -9,6 +9,7 @@ source .venv/bin/activate
 uv pip install -r requirements.txt
 
 # install PyKDL
+sudo apt install make cmake g++ libeigen3-dev unzip python3-dev libboost-all-dev -y
 bash install_pykdl.sh
 
 # install pinocchio

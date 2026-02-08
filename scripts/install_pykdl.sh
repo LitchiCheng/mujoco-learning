@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -e
+
+sudo rm -rf kdl_parser
+sudo rm -rf orocos_kinematics_dynamics
+
 if [ ! -d "orocos_kinematics_dynamics" ]; then
     git clone https://github.com/orocos/orocos_kinematics_dynamics.git
     cd orocos_kinematics_dynamics
@@ -20,9 +25,10 @@ if [ ! -d "orocos_kinematics_dynamics" ]; then
     make -j$(nproc)
     sudo make install
     cp PyKDL.*so* ../../../../.venv/lib/python3.10/site-packages/
+    cd ../../../
 fi
 
-rm -rf orocos_kinematics_dynamics
+# rm -rf orocos_kinematics_dynamics
 
 if [ ! -d "kdl_parser" ]; then
     git clone git@github.com:jvytee/kdl_parser.git
@@ -30,4 +36,4 @@ if [ ! -d "kdl_parser" ]; then
     uv pip install .
 fi
 
-rm -rf kdl_parser
+# rm -rf kdl_parser
