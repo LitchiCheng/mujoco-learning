@@ -27,6 +27,7 @@ camera.type = mujoco.mjtCamera.mjCAMERA_TRACKING
 if camera_id != -1:
     print("camera_id", camera_id)
     camera.fixedcamid = camera_id
+    # camera.trackbodyid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, "ee_center_body")
 
 # 创建帧缓冲对象
 framebuffer = mujoco.MjrRect(0, 0, resolution[0], resolution[1])
@@ -34,9 +35,9 @@ mujoco.mjr_setBuffer(mujoco.mjtFramebuffer.mjFB_OFFSCREEN, context)
 
 while True:
     mujoco.mj_step(model, data)
-    tracking_body_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, "cube")
+    tracking_body_id = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, "ee_center_body")
     camera.trackbodyid = tracking_body_id
-    camera.distance = 1.5  # 相机与目标的距离
+    camera.distance = -0.15  # 相机与目标的距离
     camera.azimuth = 0    # 水平方位角（度）
     camera.elevation = -90 # 俯仰角（度）
     viewport = mujoco.MjrRect(0, 0, resolution[0], resolution[1])

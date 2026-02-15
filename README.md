@@ -8,6 +8,26 @@ uv venv
 source .venv/bin/activate
 uv pip install -r requirements.txt
 
+# WSL2
+sudo apt update
+sudo apt install -y \
+    libgl1-mesa-glx \
+    libgl1-mesa-dri \
+    mesa-utils \
+    libxcb-xinerama0 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-shape0 \
+    libxcb-sync1 \
+    libxcb-xfixes0 \
+    libxkbcommon-x11-0 \
+    libxcb-xkb1 \
+    libqt5gui5 \
+    libqt5widgets5
+
 # install PyKDL
 sudo apt install make cmake g++ libeigen3-dev unzip python3-dev libboost-all-dev -y
 bash install_pykdl.sh

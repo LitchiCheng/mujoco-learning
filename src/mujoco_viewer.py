@@ -5,16 +5,20 @@ from xml.etree import ElementTree as ET
 from io import StringIO
 import numpy as np
 import src.utils as utils
+import glfw
+import cv2
 
 class CustomViewer:
     def __init__(self, model_path, distance=3, azimuth=0, elevation=-30):
         self.model_path = model_path
         self.model = mujoco.MjModel.from_xml_path(model_path)
         self.data = mujoco.MjData(self.model)
+        
         self.distance = distance
         self.azimuth = azimuth
         self.elevation = elevation
         self.handle = None
+        self.has_inited_glfw = False
 
     def is_running(self):
         return self.handle.is_running()
@@ -29,6 +33,22 @@ class CustomViewer:
     @property
     def viewport(self):
         return self.handle.viewport
+    
+    def initGlfw(self, width, height):
+        if not self.has_inited_glfw:
+            glfw.init()
+            glfw.window_hint(glfw.VISIBLE, glfw.FALSE)
+            self.glfw_window = glfw.create_window(width, height, "Offscreen", None, None)
+            glfw.make_context_current(self.glfw_window)
+
+            self.scene = mujoco.MjvScene(self.model, maxgeom=10000)
+            self.context = mujoco.MjrContext(self.model, mujoco.mjtFontScale.mjFONTSCALE_150.value)
+            # 创建帧缓冲对象
+            self.framebuffer = mujoco.MjrRect(0, 0, width, height)
+            mujoco.mjr_setBuffer(mujoco.mjtFramebuffer.mjFB_OFFSCREEN, self.context)
+            self.camera_view = mujoco.MjvCamera()
+            self.has_inited_glfw = True
+
     
     def setTimestep(self, timestep):
         self.model.opt.timestep = timestep
@@ -192,6 +212,34 @@ class CustomViewer:
             info["pair"+str(i)]["body1_name"] = body1_name
             info["pair"+str(i)]["body2_name"] = body2_name
         return info
+
+    def getTrackingCameraImage(self, body_name="ee_center_body", width=640, height=480, distance=0, fix_azimuth=None, fix_elevation=None):
+        self.initGlfw(width, height)
+        tracking_body_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, body_name)
+        yaw = self.getBodyPoseEulerByName(body_name)[3]
+        pitch = self.getBodyPoseEulerByName(body_name)[4]
+        self.camera_view.type = mujoco.mjtCamera.mjCAMERA_TRACKING
+        self.camera_view.trackbodyid = tracking_body_id
+        self.camera_view.distance = distance  # 相机与目标的距离
+        if fix_azimuth is not None:
+            self.camera_view.azimuth = fix_azimuth
+        else:
+            self.camera_view.azimuth = yaw    # 水平方位角（度）
+        if fix_elevation is not None:
+            self.camera_view.elevation = fix_elevation
+        else:
+            self.camera_view.elevation = pitch # 俯仰角（度）
+        viewport = mujoco.MjrRect(0, 0, width, height)
+        mujoco.mjv_updateScene(self.model, self.data, mujoco.MjvOption(), 
+                            mujoco.MjvPerturb(), self.camera_view, 
+                            mujoco.mjtCatBit.mjCAT_ALL, self.scene)
+        mujoco.mjr_render(viewport, self.scene, self.context)
+        rgb = np.zeros((height, width, 3), dtype=np.uint8)
+        mujoco.mjr_readPixels(rgb, None, viewport, self.context)
+        bgr = cv2.cvtColor(np.flipud(rgb), cv2.COLOR_RGB2BGR)
+        cv2.imshow('MuJoCo Camera Output', bgr)
+        if cv2.waitKey(1) == 27:
+            return
 
     def run_loop(self):
         self.handle = mujoco.viewer.launch_passive(self.model, self.data)

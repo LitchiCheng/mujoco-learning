@@ -4,6 +4,7 @@ import mujoco
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 
+
 class PandaEnv(mujoco_viewer.CustomViewer):
     def __init__(self, path):
         super().__init__(path, 3, azimuth=-45, elevation=-30)
@@ -21,8 +22,8 @@ class PandaEnv(mujoco_viewer.CustomViewer):
         self.end_effector_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, 'ee_center_body')
 
     def runFunc(self):
-        for i in range(self.model.nq):
-            self.data.qpos[i] = self.initial_pos[i]
+        # for i in range(self.model.nq):
+            # self.data.qpos[i] = self.initial_pos[i]
         self.initial_ee_pos = self.data.body(self.end_effector_id).xpos.copy()
         self.initial_ee_quat = self.data.body(self.end_effector_id).xquat.copy()
         rot = R.from_quat(self.initial_ee_quat)
@@ -32,8 +33,9 @@ class PandaEnv(mujoco_viewer.CustomViewer):
         # print("Initial end-effector position and euler angles: ", self.initial_ee_pos, self.ee_quat_euler_angle) 
         self.ee_orient_norm = self.ee_quat_euler_angle / np.linalg.norm(self.ee_quat_euler_angle)
         # print("ee normal orient: ", self.ee_orient_norm) 
+        self.getTrackingCameraImage(fix_elevation=-90)
         time.sleep(0.01)
 
 if __name__ == "__main__":
-    env = PandaEnv("./model/franka_emika_panda/scene_withtarget.xml")
+    env = PandaEnv("./model/franka_emika_panda/scene_with_apriltag.xml")
     env.run_loop()
