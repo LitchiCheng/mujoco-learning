@@ -238,8 +238,8 @@ class CustomViewer:
         mujoco.mjr_readPixels(rgb, None, viewport, self.context)
         bgr = cv2.cvtColor(np.flipud(rgb), cv2.COLOR_RGB2BGR)
         cv2.imshow('MuJoCo Camera Output', bgr)
-        if cv2.waitKey(1) == 27:
-            return
+        cv2.waitKey(1)
+        return bgr
 
     def run_loop(self):
         self.handle = mujoco.viewer.launch_passive(self.model, self.data)
