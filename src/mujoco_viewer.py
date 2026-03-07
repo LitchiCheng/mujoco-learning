@@ -180,6 +180,21 @@ class CustomViewer:
         body_id = self.getBodyIdByName(name)
         return self.data.body(body_id).xpos.copy()
     
+    def setBodyPositionByName(self, name, position):
+        body_id = self.getBodyIdByName(name)
+        self.data.body(body_id).xpos = position.copy()
+
+    def setMocapPosition(self, name, position):
+        body_id = self.getBodyIdByName(name)
+        mocap_id = self.model.body_mocapid[body_id]
+        self.data.mocap_pos[mocap_id] = np.array(position)
+    
+    def setMocapQuat(self, name, euler):
+        body_id = self.getBodyIdByName(name)
+        mocap_id = self.model.body_mocapid[body_id]
+        quat = utils.euler2quat(euler)
+        self.data.mocap_quat[mocap_id] = np.array(quat)
+
     def getBodyQuatByName(self, name):
         body_id = self.getBodyIdByName(name)
         return self.data.body(body_id).xquat.copy()
@@ -212,8 +227,31 @@ class CustomViewer:
             info["pair"+str(i)]["body1_name"] = body1_name
             info["pair"+str(i)]["body2_name"] = body2_name
         return info
+    
+    def getFixedCameraImage(self, camera_name="rgb_camera", width=640, height=480, distance=0, fix_azimuth=None, fix_elevation=None, show=False):
+        self.initGlfw(width, height)
+        self.camera_view.type = mujoco.mjtCamera.mjCAMERA_FIXED
+        camera_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_CAMERA, camera_name)
+        self.camera_view.fixedcamid = camera_id
+        self.camera_view.distance = distance  # 相机与目标的距离
+        if fix_azimuth is not None:
+            self.camera_view.azimuth = fix_azimuth
+        if fix_elevation is not None:
+            self.camera_view.elevation = fix_elevation
+        viewport = mujoco.MjrRect(0, 0, width, height)
+        mujoco.mjv_updateScene(self.model, self.data, mujoco.MjvOption(), 
+                            mujoco.MjvPerturb(), self.camera_view, 
+                            mujoco.mjtCatBit.mjCAT_ALL, self.scene)
+        mujoco.mjr_render(viewport, self.scene, self.context)
+        rgb = np.zeros((height, width, 3), dtype=np.uint8)
+        mujoco.mjr_readPixels(rgb, None, viewport, self.context)
+        bgr = cv2.cvtColor(np.flipud(rgb), cv2.COLOR_RGB2BGR)
+        if show:
+            cv2.imshow('MuJoCo Camera Output', bgr)
+            cv2.waitKey(1)
+        return bgr
 
-    def getTrackingCameraImage(self, body_name="ee_center_body", width=640, height=480, distance=0, fix_azimuth=None, fix_elevation=None):
+    def getTrackingCameraImage(self, body_name="ee_center_body", width=640, height=480, distance=0, fix_azimuth=None, fix_elevation=None, show=False):
         self.initGlfw(width, height)
         tracking_body_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, body_name)
         yaw = self.getBodyPoseEulerByName(body_name)[3]
@@ -237,8 +275,9 @@ class CustomViewer:
         rgb = np.zeros((height, width, 3), dtype=np.uint8)
         mujoco.mjr_readPixels(rgb, None, viewport, self.context)
         bgr = cv2.cvtColor(np.flipud(rgb), cv2.COLOR_RGB2BGR)
-        cv2.imshow('MuJoCo Camera Output', bgr)
-        cv2.waitKey(1)
+        if show:
+            cv2.imshow('MuJoCo Camera Output', bgr)
+            cv2.waitKey(1)
         return bgr
 
     def run_loop(self):
