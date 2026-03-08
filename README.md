@@ -40,6 +40,7 @@ bash install_pinocchio.sh
 ## Tutorials
 |file|url|
 |----|-------|
+|camera_calibration.py|[Mujoco 仿真棋格盘标定相机内参方法（附代码）](https://www.bilibili.com/video/BV1eVNMz5Eku/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |test_apriltag.py|[Mujoco 如何添加 Apriltag 并获得相机视野进行识别](https://www.bilibili.com/video/BV1FgZyBqEpS/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |rl_panda_obstacle_high_profile.py|[Mujoco 开源机械臂 RL 强化学习避障、绕障](https://www.bilibili.com/video/BV1bd6sBpEvT/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |move_obstacles.py|[Mujoco 如何在RL中动态或随机更改障碍物位置、开关碰撞计算以及碰撞信息](https://www.bilibili.com/video/BV1FXzQBjEk1/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
