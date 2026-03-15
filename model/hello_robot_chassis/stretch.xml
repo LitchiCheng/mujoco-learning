@@ -1,0 +1,175 @@
+<mujoco model="stretch">
+  <compiler angle="radian" assetdir="assets" autolimits="true"/>
+
+  <option integrator="implicitfast" impratio="1" cone="elliptic" noslip_iterations="2">
+    <flag multiccd="enable"/>
+  </option>
+
+  <default>
+    <default class="stretch">
+      <geom mass="0" solref="0.005 1"/>
+      <general biastype="affine"/>
+      <default class="wheel">
+        <joint axis="0 0 -1" damping=".3"/>
+        <motor ctrlrange="-1 1" gear="3" forcerange="-100 100"/>
+      </default>
+      <default class="lift">
+        <joint type="slide" axis="0 0 1" damping="5" range="-0.5 .6"/>
+        <general ctrlrange="-0.5 .6" gainprm="300" biasprm="0 -300 -50" forcerange="-56 56"/>
+      </default>
+      <default class="telescope">
+        <joint type="slide" axis="0 0 1" damping="5" range="0 0.13"/>
+        <general ctrlrange="0 0.52" gainprm="100" biasprm="0 -100 -10" forcerange="-56 56"/>
+      </default>
+      <default class="head">
+        <joint axis="0 0 1" damping="1"/>
+        <position kp="10"/>
+        <default class="head_pan">
+          <joint range="-3.9 1.5"/>
+          <position ctrlrange="-3.9 1.5"/>
+        </default>
+        <default class="head_tilt">
+          <joint range="-1.53 0.79"/>
+          <position ctrlrange="-1.53 0.79"/>
+        </default>
+      </default>
+      <default class="wrist">
+        <joint axis="0 0 -1" range="-1.75 4" damping=".1"/>
+        <general gainprm="1" biasprm="0 -1 0" ctrlrange="-1.75 4" forcerange="-5 5"/>
+      </default>
+      <default class="finger_open">
+        <joint axis="0 0 1" range="-0.6 0.6" damping=".1"/>
+      </default>
+      <default class="finger_slide">
+        <joint type="slide" axis="1 0 0" range="-0.005 .04" damping=".1"/>
+        <general gainprm="2000" biasprm="0 -2000 -200" ctrlrange="-0.005 .04"/>
+      </default>
+      <default class="visual">
+        <geom group="2" type="mesh" contype="0" conaffinity="0"/>
+      </default>
+      <default class="collision">
+        <geom group="3" type="mesh"/>
+        <default class="caster">
+          <geom type="sphere" size=".02" pos="-0.24 0 .02" condim="1" priority="1"/>
+        </default>
+        <default class="rubber">
+          <geom condim="6" friction="0.8 0.02 0.01" priority="1"/>
+        </default>
+      </default>
+    </default>
+  </default>
+
+  <asset>
+    <texture type="2d" file="hand_crush.png"/>
+    <texture type="2d" file="serial.png"/>
+    <texture type="2d" file="mobile_base_right_corner_aruco_sticker.png"/>
+    <texture type="2d" file="mobile_base_left_corner_aruco_sticker.png"/>
+    
+    <material name="Caster_Rollers_Red" rgba="0.8 0.001381 0 1"/>
+    <material name="Generic_Black" rgba="0.036889 0.036889 0.036889 1"/>
+    <material name="3D_Print_Black" rgba="0.114435 0.114435 0.114435 1"/>
+    <material name="Pantone_Black_6_U" rgba="0.072272 0.076185 0.093059 1"/>
+    <material name="Plug_White" rgba="1 1 1 1"/>
+    <material name="Pure_Black" rgba="0 0 0 1"/>
+    <material name="Reflective_Metal" rgba="0.8 0.8 0.8 1"/>
+    <material name="Respeaker_Blue_Glow" rgba="0.006995 0.054480 0.799103 1"/>
+    <material name="Runstop_White_Glow" rgba="0.8 0.8 0.8 1"/>
+    <material name="Speaker_Housing_Black" rgba="0.003642 0.003642 0.003642 1"/>
+    <material name="Wheel_Rubber_Gray" rgba="0.418986 0.424087 0.429225 1"/>
+    <material name="Lightbar_Green" rgba="0.0 0.8 0.002964 1"/>
+    <material name="Pantone_705_U" rgba="1 0.723054 0.760525 1"/>
+    <material name="Pantone_Cool_Gray_4_U" rgba="0.473531 0.479320 0.485150 1"/>
+    <material name="Power_Button_Green" rgba="0.010852 0.023650 0.002724 1"/>
+    <material name="USB_Blue" rgba="0.000557 0.010166 0.8 1"/>
+    <material name="White_Plastic" rgba="1 1 1 1"/>
+    <material name="Laser_Black" rgba="0.03741 0.03741 0.03741 1"/>
+    <material name="Hand_Crush_Sticker" texture="hand_crush"/>
+    <material name="Stretch_Serial_Sticker" texture="serial"/>
+    <material name="Aruco_Right_Base_Sticker" texture="mobile_base_right_corner_aruco_sticker"/>
+    <material name="Aruco_Left_Base_Sticker" texture="mobile_base_left_corner_aruco_sticker"/>
+    <material name="Carbon_Fiber" rgba="0.061246 0.061246 0.061246 1"/>
+    <material name="suction_rubber" rgba="0.25098 0.25098 0.25098 1"/>
+
+    <mesh file="base_link_0.obj"/>
+    <mesh file="base_link_2.obj" inertia="shell"/>
+    <mesh file="base_link_3.obj"/>
+    <mesh file="base_link_4.obj"/>
+    <mesh file="base_link_5.obj"/>
+    <mesh file="base_link_6.obj" inertia="shell"/>
+    <mesh file="base_link_7.obj"/>
+    <mesh file="base_link_8.obj"/>
+    <mesh name="base_link_collision" file="base_link_casterless.stl"/>
+    <mesh file="link_aruco_right_base.obj" inertia="shell"/>
+    <mesh file="link_aruco_left_base.obj" inertia="shell"/>
+    <mesh file="respeaker_base.obj"/>
+    <mesh file="link_right_wheel_0.obj"/>
+    <mesh file="link_right_wheel_1.obj"/>
+    <mesh file="link_left_wheel_0.obj"/>
+    <mesh file="link_left_wheel_1.obj"/>
+    <mesh file="link_aruco_shoulder.obj" inertia="shell"/>
+    <mesh file="link_aruco_inner_wrist.obj" inertia="shell"/>
+    <mesh file="link_aruco_top_wrist.obj" inertia="shell"/>
+    <mesh file="laser.obj"/>
+  </asset>
+
+  <worldbody>
+    <body name="base_link" childclass="stretch">
+      <freejoint/>
+      <geom mesh="base_link_0" material="Caster_Rollers_Red" class="visual"/>
+      <geom mesh="base_link_2" material="Lightbar_Green" class="visual"/>
+      <geom mesh="base_link_3" material="Power_Button_Green" class="visual"/>
+      <geom mesh="base_link_4" material="USB_Blue" class="visual"/>
+      <geom mesh="base_link_5" material="Generic_Black" class="visual"/>
+      <geom mesh="base_link_6" material="Hand_Crush_Sticker" class="visual"/>
+      <geom mesh="base_link_7" material="Pantone_705_U" class="visual"/>
+      <geom mesh="base_link_8" material="Pantone_Cool_Gray_4_U" class="visual"/>
+      <geom class="collision" mesh="base_link_collision" mass="15.0"/>
+      <geom class="caster"/>
+      <body name="link_aruco_right_base" pos="-0.0015028 -0.130497 0.159748" quat="1 0 0 -1">
+        <geom material="Aruco_Right_Base_Sticker" mesh="link_aruco_right_base" class="visual" mass="3.6E-06"/>
+        <geom mesh="link_aruco_right_base" class="collision"/>
+      </body>
+      <body name="link_aruco_left_base" pos="-0.0015028 0.130497 0.159748" quat="1 0 0 -1">
+        <geom material="Aruco_Left_Base_Sticker" mesh="link_aruco_left_base" class="visual" mass="3.6E-06"/>
+        <geom mesh="link_aruco_left_base" class="collision"/>
+      </body>
+      <body name="laser" pos="0.004 0 0.1664" quat="0 0 0 1">
+        <geom material="Laser_Black" mesh="laser" class="visual" mass="0.24"/>
+        <geom mesh="laser" class="collision"/>
+      </body>
+      <body name="link_right_wheel" pos="0 -0.17035 0.0508" quat="1 -1 0 0">
+        <joint name="joint_right_wheel" class="wheel"/>
+        <geom mesh="link_right_wheel_0" material="Wheel_Rubber_Gray" class="visual" mass="0.15"/>
+        <geom mesh="link_right_wheel_1" material="Generic_Black" class="visual"/>
+        <geom class="collision" type="cylinder" size=".05 .0125" pos="0 0 0.0125"/>
+      </body>
+      <body name="link_left_wheel" pos="0 0.17035 0.0508" quat="1 -1 0 0">
+        <joint name="joint_left_wheel" class="wheel"/>
+        <geom mesh="link_left_wheel_0" material="Wheel_Rubber_Gray" class="visual" mass="0.15"/>
+        <geom mesh="link_left_wheel_1" material="Generic_Black" class="visual"/>
+        <geom class="collision" type="cylinder" size=".05 .0125" pos="0 0 -0.0125"/>
+      </body>
+    </body>
+  </worldbody>
+
+  <contact>
+    <exclude body1="link_left_wheel" body2="base_link"/>
+    <exclude body1="link_right_wheel" body2="base_link"/>
+  </contact>
+
+  <tendon>
+    <fixed name="forward">
+      <joint joint="joint_left_wheel" coef=".5"/>
+      <joint joint="joint_right_wheel" coef=".5"/>
+    </fixed>
+    <fixed name="turn">
+      <joint joint="joint_left_wheel" coef="-.5"/>
+      <joint joint="joint_right_wheel" coef=".5"/>
+    </fixed>
+  </tendon>
+
+  <actuator>
+    <motor name="forward" tendon="forward" class="wheel"/>
+    <motor name="turn" tendon="turn" class="wheel"/>
+  </actuator>
+</mujoco>
