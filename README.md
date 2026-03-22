@@ -40,6 +40,7 @@ bash install_pinocchio.sh
 ## Tutorials
 |file|url|
 |----|-------|
+|pickup_cube.py|[Mujoco 物体pickup总失败？摩擦力有哪些（切向、扭转、滚动）](https://www.bilibili.com/video/BV1dZAuzLEh2/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |get_apriltag_pos.py|[Mujoco 仿真相机下 SolvePnp 获得 Apriltag 位姿](https://www.bilibili.com/video/BV1PTwTzUEq5/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |camera_calibration.py|[Mujoco 仿真棋格盘标定相机内参方法（附代码）](https://www.bilibili.com/video/BV1eVNMz5Eku/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |test_apriltag.py|[Mujoco 如何添加 Apriltag 并获得相机视野进行识别](https://www.bilibili.com/video/BV1FgZyBqEpS/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|

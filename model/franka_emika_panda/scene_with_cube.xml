@@ -25,7 +25,7 @@
     </body> -->
     <body name="cube" pos="0.45 0 0.05">
       <freejoint name="cube_joint"/>
-      <geom name="cube_geom" type="box" size="0.02 0.02 0.02" rgba="1 0 0 1" friction="1.0"/>
+      <geom name="cube_geom" type="box" size="0.02 0.02 0.02" rgba="1 0 0 1" condim="4" friction="1.0 0.115 0.0001"/>
     </body>
     
   </worldbody>
