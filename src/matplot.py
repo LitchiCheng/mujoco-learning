@@ -2,11 +2,23 @@ import numpy as np
 import time
 from typing import Optional, Dict, Any, Tuple
 import pyqtgraph as pg
+from pathlib import Path
+import os
+
+try:
+    from PyQt5 import QtCore
+    pyqt5_plugin_path = os.path.join(os.path.dirname(QtCore.__file__), "Qt5", "plugins")
+    if os.path.exists(pyqt5_plugin_path):
+        os.environ["QT_QPA_PLATFORM_PLUGIN_PATH"] = pyqt5_plugin_path
+except ImportError:
+    pass
+
+os.environ.pop("QT_QPA_PLATFORMTHEME", None)
+
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout
 from PyQt5.QtCore import Qt
 import sys
 import weakref
-
 
 class MultiChartRealTimePlotManager:
     def __init__(self):
