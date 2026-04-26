@@ -40,6 +40,7 @@ bash install_pinocchio.sh
 ## Tutorials
 |file|url|
 |----|-------|
+|sensordata.py|[Mujoco 仿真中传感器数据（SensorData）获取及使用](https://www.bilibili.com/video/BV1CZovBSEvT/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |pbvs_mpc.py|[Mujoco 机械臂 MPC 模型预测控制应用 PBVS](https://www.bilibili.com/video/BV1UtSoBPEdr/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |pickup_cube.py|[Mujoco 物体pickup总失败？摩擦力有哪些（切向、扭转、滚动）](https://www.bilibili.com/video/BV1dZAuzLEh2/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
 |get_apriltag_pos.py|[Mujoco 仿真相机下 SolvePnp 获得 Apriltag 位姿](https://www.bilibili.com/video/BV1PTwTzUEq5/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
