@@ -43,56 +43,233 @@ bash scripts/install_pykdl.sh        # 第一次需要编译，之后会自动�
 
 之后 `import kdl_parser` / `from kdl_parser.urdf import ...` 即可使用。
 
-## Tutorials
-|file|url|
-|----|-------|
-|rl_panda_pickup_cube.py|[Mujoco 机械臂 RL 强化学习 Pick and Place Cube 小方块](https://www.bilibili.com/video/BV1YKTG6GEqj/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|sensordata.py|[Mujoco 仿真中传感器数据（SensorData）获取及使用](https://www.bilibili.com/video/BV1CZovBSEvT/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|pbvs_mpc.py|[Mujoco 机械臂 MPC 模型预测控制应用 PBVS](https://www.bilibili.com/video/BV1UtSoBPEdr/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|pickup_cube.py|[Mujoco 物体pickup总失败？摩擦力有哪些（切向、扭转、滚动）](https://www.bilibili.com/video/BV1dZAuzLEh2/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|get_apriltag_pos.py|[Mujoco 仿真相机下 SolvePnp 获得 Apriltag 位姿](https://www.bilibili.com/video/BV1PTwTzUEq5/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|camera_calibration.py|[Mujoco 仿真棋格盘标定相机内参方法（附代码）](https://www.bilibili.com/video/BV1eVNMz5Eku/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|test_apriltag.py|[Mujoco 如何添加 Apriltag 并获得相机视野进行识别](https://www.bilibili.com/video/BV1FgZyBqEpS/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|rl_panda_obstacle_high_profile.py|[Mujoco 开源机械臂 RL 强化学习避障、绕障](https://www.bilibili.com/video/BV1bd6sBpEvT/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|move_obstacles.py|[Mujoco 如何在RL中动态或随机更改障碍物位置、开关碰撞计算以及碰撞信息](https://www.bilibili.com/video/BV1FXzQBjEk1/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|panda_dynamics_admittance.py|[Mujoco 末端（笛卡尔空间）导纳控制（Admittance）仿真及代码讲解](https://www.bilibili.com/video/BV1FhkxBjEvr/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|get_ee_wrench.py|[Mujoco 仿真 Dynamics 动力学获得末端执行器 Wrench](https://www.bilibili.com/video/BV1ynirB2Ezy/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|panda_dynamics_drag.py|[Mujoco 仿真动力学拖动示教(Drag Teaching)](https://www.bilibili.com/video/BV1k9v6B3EQS/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|panda_dynamics_hold.py|[Mujoco 使用 Pinocchio 进行逆动力学及阻抗力矩控制维持当前位置](https://www.bilibili.com/video/BV1nVqDBTEma/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|null_space.py|[Mujoco 冗余机械臂零空间 Null Space 运动仿真](https://www.bilibili.com/video/BV1bUmFBiEv1/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|get_workspace.py|[Mujoco 蒙特卡洛采样统计机械臂可达工作空间（非Matlab）](https://www.bilibili.com/video/BV1tDmFBNE1d/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|add_random_obstacle.py|[Mujoco 随机添加碰撞物体（位置、类型、大小、颜色）以及注意点](https://www.bilibili.com/video/BV1Zs2WBjEyK/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|add_random_geoms.py|[Mujoco 动态添加可视化元素（可用于画轨迹或目标点）](https://www.bilibili.com/video/BV16J2WBSE5Z/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|rrt_obstacle.py|[Mujoco 机械臂 OMPL 进行 RRT 关节空间路径规划避障、绕障](https://www.bilibili.com/video/BV1fuSiBdExx/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|check_fk_match_with_mujoco.py|[Mujoco 检验 KDL 和 Pinocchio 运动学 FK 是否一致](https://www.bilibili.com/video/BV19xSKBYEoX/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|ik_kdl_panda.py|[Mujoco 使用 KDL 对机械臂进行 IK 和 FK 运动学控制末端移动](https://www.bilibili.com/video/BV1GKSNBtEvJ/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|mujoco_get_all_bady.py|[Mujoco 基础：获取模型中所有 body 的 name, id 以及位姿](https://www.bilibili.com/video/BV16cSFBxEYy/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|urdf_match_with_mjcf.py|[Mujoco 模型 MJCF 和 URDF 如何手动对齐（Pinocchio验证）](https://www.bilibili.com/video/BV1HzSFB8EyS/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|panda_pbvs.py|[Mujoco 机械臂进行 PBVS 基于位置的视觉伺服思路](https://www.bilibili.com/video/BV18zC5BNEt6/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|rl_panda_reach_target_high_profile.py|[Mujoco 仿真 PPO 强化学习机械臂末端路径规划到达指定位置](https://www.bilibili.com/video/BV1DAskzmEPZ/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|joystick_sim_and_real_so100.py|[SO-ARM100 双场景演示：手柄驱动 Mujoco 仿真 + 实机控制](https://www.bilibili.com/video/BV1RCp1zFE2v/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|joystick_so100.py|[北通手柄遥控 + Mujoco 仿真 SO-ARM100 机械臂末端位姿](https://www.bilibili.com/video/BV1fyYLzVEbW/?share_source=copy_web&vd_source=98d79df50a14f07106c58e9e50f70c68)|
-|so100_real_control.py|[sim2real！so-arm100 机械臂 Mujoco 仿真与实机控制](https://www.bilibili.com/video/BV1gHeHz7ETT/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|control_ee_with_pinocchio_so100.py|[Pinocchio 结合 CasADi 进行 IK 逆运动学及 Mujoco 仿真](https://www.bilibili.com/video/BV1o38gzSE9h/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|install_pinocchio.sh|[Pinocchio 导入 CasADi 失败？源码编译保姆级教程，一步到位解决！](https://www.bilibili.com/video/BV1mSghz1EUx/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|kdl_urdf_test.py|[不装 ROS 也能用 PyKDL！使用kdl_parser解析URDF并进行IK](https://www.bilibili.com/video/BV1RWMHzREg4/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|get_torque.py|[MuJoCo 解析 qfrc 三种力！带你测试鼠标拖拽物理交互效果](https://www.bilibili.com/video/BV1kH79zUEAc/?vd_source=5ba34935b7845cd15c65ef62c64ba82f)|
-|joint_impedance_control.py|[MuJoCo 机械臂关节空间阻抗控制Impedance实现（附代码）](https://www.bilibili.com/video/BV1UK5czMEQr/?vd_source=5ba34935b7845cd15c65ef62c64ba82f#reply262516173552)|
-|rl_panda.py|[MuJoCo 机械臂 PPO 强化学习逆向运动学（IK）](https://www.bilibili.com/video/BV1mHLVzzEMj?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|pid_torque_and_get.py|[MuJoCo 机械臂 PID 控制器输出力矩控制到达指定位置（附代码）](https://www.bilibili.com/video/BV1MbL6zSEAY?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|get_body_pos.py|[MuJoCo 仿真 Panda 机械臂！末端位置实时追踪 + 可视化（含缩放交互）](https://www.bilibili.com/video/BV1gaXxYaEnv?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|control_joint_pos.py|[MuJoCo 仿真 Panda 机械臂关节空间运动｜含完整代码](https://www.bilibili.com/video/BV1pWoBYcETJ?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|test_pinocchio.py|[Pinocchio 安装教程｜机器人学的必备库](https://www.bilibili.com/video/BV1UFoRYDEfF?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|control_ee_with_pinocchio.py|[【逆解机械臂】Pinocchio+MuJuCo 仿真 CLIK 闭环控制！附代码](https://www.bilibili.com/video/BV1aAZYYAE5f?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|move_ball.py|[MuJoCo 可视化键盘控制球体及位姿实时记录，附代码！](https://www.bilibili.com/video/BV1oTZrYaE2h?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|trajectory_plan_toppra.py|[MuJoCo 仿真 + TOPPRA 最优时间轨迹规划！机械臂运动效率拉满（附代码）](https://www.bilibili.com/video/BV1fndxYSEui?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|path_plan_ompl_rrtconnect.py|[MuJoCo + OMPL 进行Panda机械臂关节空间的RRT路径规划](https://www.bilibili.com/video/BV1EJd5YQExw?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|test_pyroboplan.py|[PyRoboPlan 库，给 panda 机械臂微分 IK 上大分，关节限位、碰撞全不怕](https://www.bilibili.com/video/BV1Rod6YHET2?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|path_plan_pyroboplan_rrt.py|[MuJoCo 机械臂关节路径规划+轨迹优化+末端轨迹可视化（附代码）](https://www.bilibili.com/video/BV1tZo7YjEgd?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|path_plan_pyroboplan_rrt_draw_trajectory.py|[MuJoCo 画出机械臂末端轨迹进行可视化（附代码）](https://www.bilibili.com/video/BV1B2ocYSE7r?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|ik_path_paln_trajectory_pyroboplan.py|[MuJoCo 提高机械臂笛卡尔空间IK+路径规划+轨迹优化的成功率及效率](https://www.bilibili.com/video/BV1qA5EzPEFh?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|mocap_panda.py|[MuJoCo 动捕接口 Mocap 直接操控机械臂（附代码）](https://www.bilibili.com/video/BV1k651zXEeN?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|set_and_get_qvel.py|[MuJoCo 关节角速度记录与可视化，监控机械臂运动状态](https://www.bilibili.com/video/BV1kSLdznEMd?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|get_camera_pic.py|[MuJoCo 相机图片怎么拿？视角调整获取物体图片及实时显示（附代码）](https://www.bilibili.com/video/BV1THGSzvE6t?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|test_why_continuous_2q.py|[Pinocchio导入URDF关节为continuous的问题及详细解释](https://www.bilibili.com/video/BV1tvVrzmEgx?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
-|contact_detect.py|[MuJoCo 机械臂物体碰撞、接触检测方式一](https://www.bilibili.com/video/BV12WfFYYE4T?vd_source=5ba34935b7845cd15c65ef62c64ba82f&spm_id_from=333.788.videopod.sections)|
+---
+
+## Running Examples
+
+所有示例脚本已添加自动路径设置，从项目根目录运行：
+
+```bash
+# 从项目根目录运行任何示例
+python examples/kinematics/ik_kdl_panda.py
+python examples/control/pbvs_mpc.py
+python examples/robots/panda/panda_viewer.py
+python hardware/joystick_so100.py
+```
+
+---
+
+## Examples
+
+### 🤖 Kinematics & Path Planning
+
+| File | Description |
+|------|-------------|
+| `examples/kinematics/ik_kdl_panda.py` | KDL 逆运动学 FK/IK 演示 |
+| `examples/kinematics/ik_casadi_panda.py` | CasADi + Pinocchio 逆运动学 (Panda) |
+| `examples/kinematics/ik_casadi_ur5e.py` | CasADi + Pinocchio 逆运动学 (UR5e) |
+| `examples/kinematics/null_space.py` | 冗余机械臂零空间运动 |
+| `examples/kinematics/check_fk_match_with_mujoco.py` | KDL vs Pinocchio FK 一致性验证 |
+| `examples/planning/path_plan_ompl_rrtconnect.py` | OMPL RRTConnect 关节空间规划 |
+| `examples/planning/rrt_obstacle.py` | OMPL RRT 避障路径规划 |
+| `examples/planning/trajectory_plan_toppra.py` | TOPPRA 时间最优轨迹规划 |
+
+### 🎯 Control & Dynamics
+
+| File | Description |
+|------|-------------|
+| `examples/control/control_joint_pos.py` | 关节空间位置控制 |
+| `examples/control/control_ee_with_pinocchio.py` | Pinocchio CLIK 末端姿态控制 |
+| `examples/control/pbvs_mpc.py` | PBVS 视觉伺服 + MPC |
+| `examples/dynamics/impedance_control.py` | 关节空间阻抗控制 |
+| `examples/dynamics/joint_impedance_control.py` | 关节阻抗控制示例 |
+
+### 🦾 Robot-Specific Examples
+
+**Panda / Franka:**
+| File | Description |
+|------|-------------|
+| `examples/robots/panda/panda_viewer.py` | 基础可视化 demo |
+| `examples/robots/panda/panda_pbvs.py` | PBVS 基于位置视觉伺服 |
+| `examples/robots/panda/panda_dynamics_admittance.py` | 笛卡尔空间导纳控制 |
+| `examples/robots/panda/panda_dynamics_drag.py` | 拖动示教 (Drag Teaching) |
+| `examples/robots/panda/panda_dynamics_hold.py` | 阻抗力矩保持位置 |
+| `examples/dynamics/panda_get_torque.py` | Panda 关节力矩获取 |
+
+**SO-ARM100:**
+| File | Description |
+|------|-------------|
+| `examples/robots/so100/so100_real_control.py` | sim2real 实机控制 |
+| `examples/robots/so100/control_ee_with_pinocchio_so100.py` | Pinocchio+CasADi IK (SO-ARM100) |
+| `examples/robots/so100/ik_pyroboplan_so_arm100.py` | PyRoboPlan IK (SO-ARM100) |
+
+**Hardware Interface:**
+| File | Description |
+|------|-------------|
+| `hardware/joystick_so100.py` | 手柄遥控仿真末端位姿 |
+| `hardware/joystick_sim_and_real_so100.py` | 手柄驱动仿真 + 实机双场景 |
+
+### 🦾 Reinforcement Learning
+
+| File | Description |
+|------|-------------|
+| `examples/rl/rl_panda_pickup_cube.py` | PPO 强化学习 Pick and Place |
+| `examples/rl/rl_panda_obstacle_high_profile.py` | PPO 强化学习避障绕障 |
+| `examples/rl/rl_panda_reach_target_high_profile.py` | PPO 末端路径规划到达目标 |
+
+### 👁️ Perception & Sensors
+
+| File | Description |
+|------|-------------|
+| `examples/perception/test_apriltag.py` | AprilTag 识别与位姿获取 |
+| `examples/perception/get_apriltag_pos.py` | SolvePnP 获得 AprilTag 位姿 |
+| `examples/perception/camera_calibration.py` | 棋盘格标定相机内参 |
+| `examples/perception/sensordata.py` | 传感器数据 (SensorData) 获取 |
+| `examples/perception/get_ee_wrench.py` | 末端执行器 Wrench 检测 |
+| `examples/perception/contact_detect.py` | 碰撞/接触检测 |
+
+### 📦 Scene Setup & Environment
+
+| File | Description |
+|------|-------------|
+| `examples/scene_setup/add_random_obstacles.py` | 动态添加随机碰撞障碍物 |
+| `examples/scene_setup/add_random_geoms.py` | 动态添加可视化元素（画轨迹/目标点） |
+| `examples/scene_setup/move_obstacles.py` | RL 中动态/随机更改障碍物位置 |
+| `examples/scene_setup/pickup_cube.py` | 抓取方块（摩擦力参数设置） |
+| `examples/scene_setup/move_ball.py` | 键盘控制球体可视化 |
+| `examples/scene_setup/mocap_panda.py` | Mocap 动捕接口操控机械臂 |
+
+### 🧪 Utilities & Analysis
+
+| File | Description |
+|------|-------------|
+| `examples/utilities/get_workspace.py` | 蒙特卡洛采样可达工作空间分析 |
+| `examples/utilities/get_body_pos.py` | 获取 body 位置（带可视化） |
+| `examples/utilities/mujoco_get_all_body.py` | 获取所有 body name/id/位姿 |
+| `examples/utilities/set_and_get_qvel.py` | 关节角速度记录与可视化 |
+
+### 🧪 Tests & Debug
+
+| File | Description |
+|------|-------------|
+| `tests/test_pinocchio.py` | Pinocchio 安装验证 |
+| `tests/test_pyroboplan.py` | PyRoboPlan 库快速测试 |
+| `tests/debug/test_joystick.py` | 手柄输入测试 |
+
+### 📁 Conversions & Models
+
+- `conversions/mjcf2usd.py` - MJCF 转 USD 格式
+- `model/` - Franka Panda, SO-ARM100 等模型目录
+
+---
+
+## Video Tutorials (Bilibili)
+
+| File | Video |
+|------|-------|
+| `rl_panda_pickup_cube.py` | [Mujoco RL Pick and Place](https://www.bilibili.com/video/BV1YKTG6GEqj/) |
+| `sensordata.py` | [传感器数据获取](https://www.bilibili.com/video/BV1CZovBSEvT/) |
+| `pbvs_mpc.py` | [MPC 视觉伺服 PBVS](https://www.bilibili.com/video/BV1UtSoBPEdr/) |
+| `pickup_cube.py` | [摩擦力参数设置](https://www.bilibili.com/video/BV1dZAuzLEh2/) |
+| `get_apriltag_pos.py` | [SolvePnP AprilTag 位姿](https://www.bilibili.com/video/BV1PTwTzUEq5/) |
+| `camera_calibration.py` | [相机内参标定](https://www.bilibili.com/video/BV1eVNMz5Eku/) |
+| `test_apriltag.py` | [AprilTag 识别识别](https://www.bilibili.com/video/BV1FgZyBqEpS/) |
+| `rl_panda_obstacle_high_profile.py` | [RL 避障绕障](https://www.bilibili.com/video/BV1bd6sBpEvT/) |
+| `move_obstacles.py` | [动态障碍物位置控制](https://www.bilibili.com/video/BV1FXzQBjEk1/) |
+| `panda_dynamics_admittance.py` | [导纳控制 Admittance](https://www.bilibili.com/video/BV1FhkxBjEvr/) |
+| `get_ee_wrench.py` | [末端 Wrench 检测](https://www.bilibili.com/video/BV1ynirB2Ezy/) |
+| `panda_dynamics_drag.py` | [拖动示教 Drag Teaching](https://www.bilibili.com/video/BV1k9v6B3EQS/) |
+| `panda_dynamics_hold.py` | [逆动力学维持位置](https://www.bilibili.com/video/BV1nVqDBTEma/) |
+| `null_space.py` | [零空间 Null Space 运动](https://www.bilibili.com/video/BV1bUmFBiEv1/) |
+| `get_workspace.py` | [蒙特卡洛工作空间分析](https://www.bilibili.com/video/BV1tDmFBNE1d/) |
+| `add_random_obstacles.py` | [随机添加碰撞物体](https://www.bilibili.com/video/BV1Zs2WBjEyK/) |
+| `add_random_geoms.py` | [动态添加可视化元素](https://www.bilibili.com/video/BV16J2WBSE5Z/) |
+| `rrt_obstacle.py` | [OMPL RRT 避障规划](https://www.bilibili.com/video/BV1fuSiBdExx/) |
+| `check_fk_match_with_mujoco.py` | [KDL vs Pinocchio FK 一致性验证](https://www.bilibili.com/video/BV19xSKBYEoX/) |
+| `ik_kdl_panda.py` | [KDL IK/FK末端移动控制](https://www.bilibili.com/video/BV1GKSNBtEvJ/) |
+| `urdf_match_with_mjcf.py` | [URDF 与 MJCF 对齐](https://www.bilibili.com/video/BV1HzSFB8EyS/) |
+| `panda_pbvs.py` | [PBVS 视觉伺服思路](https://www.bilibili.com/video/BV18zC5BNEt6/) |
+| `rl_panda_reach_target_high_profile.py` | [PPO 末端路径规划到达目标](https://www.bilibili.com/video/BV1DAskzmEPZ/) |
+| `joystick_sim_and_real_so100.py` | [SO-ARM100 手柄仿真 + 实机双场景](https://www.bilibili.com/video/BV1RCp1zFE2v/) |
+| `joystick_so100.py` | [SO-ARM100 手柄遥控仿真](https://www.bilibili.com/video/BV1fyYLzVEbW/) |
+| `so100_real_control.py` | [sim2real 实机控制](https://www.bilibili.com/video/BV1gHeHz7ETT/) |
+| `control_ee_with_pinocchio_so100.py` | [Pinocchio+CasADi IK (SO-ARM100)](https://www.bilibili.com/video/BV1o38gzSE9h/) |
+| `kdl_urdf_test.py` | [不装 ROS 用 PyKDL 解析 URDF](https://www.bilibili.com/video/BV1RWMHzREg4/) |
+| `get_torque.py` | [qfrc 三种力与拖拽交互](https://www.bilibili.com/video/BV1kH79zUEAc/) |
+| `joint_impedance_control.py` | [关节空间阻抗控制 Impedance](https://www.bilibili.com/video/BV1UK5czMEQr/) |
+| `rl_panda.py` | [PPO 强化学习逆运动学 IK](https://www.bilibili.com/video/BV1mHLVzzEMj) |
+| `pid_torque_and_get.py` | [PID 力矩控制到达位置](https://www.bilibili.com/video/BV1MbL6zSEAY) |
+| `get_body_pos.py` | [末端位置实时追踪 + 可视化](https://www.bilibili.com/video/BV1gaXxYaEnv) |
+| `control_joint_pos.py` | [关节空间运动控制](https://www.bilibili.com/video/BV1pWoBYcETJ) |
+| `test_pinocchio.py` | [Pinocchio 安装教程](https://www.bilibili.com/video/BV1UFoRYDEfF) |
+| `control_ee_with_pinocchio.py` | [Pinocchio+MuJuCo CLIK 闭环控制](https://www.bilibili.com/video/BV1aAZYYAE5f) |
+| `move_ball.py` | [键盘控制球体可视化记录](https://www.bilibili.com/video/BV1oTZrYaE2h) |
+| `trajectory_plan_toppra.py` | [TOPPRA 时间最优轨迹规划](https://www.bilibili.com/video/BV1fndxYSEui) |
+| `path_plan_ompl_rrtconnect.py` | [OMPL Panda RRT 关节空间规划](https://www.bilibili.com/video/BV1EJd5YQExw) |
+| `test_pyroboplan.py` | [PyRoboPlan 库测试](https://www.bilibili.com/video/BV1Rod6YHET2) |
+| `path_plan_pyroboplan_rrt.py` | [PyRoboPlan RRT 路径规划 + 轨迹优化](https://www.bilibili.com/video/BV1tZo7YjEgd) |
+| `path_plan_pyroboplan_rrt_draw_trajectory.py` | [末端轨迹可视化](https://www.bilibili.com/video/BV1B2ocYSE7r) |
+| `ik_path_paln_trajectory_pyroboplan.py` | [IK+ 路径规划 + 轨迹优化成功率提升](https://www.bilibili.com/video/BV1qA5EzPEFh) |
+| `mocap_panda.py` | [Mocap 动捕操控机械臂](https://www.bilibili.com/video/BV1k651zXEeN) |
+| `set_and_get_qvel.py` | [关节角速度记录与可视化](https://www.bilibili.com/video/BV1kSLdznEMd) |
+| `get_camera_pic.py` | [相机视角调整获取图片实时显示](https://www.bilibili.com/video/BV1THGSzvE6t) |
+| `test_why_continuous_2q.py` | [continuous 关节问题解析](https://www.bilibili.com/video/BV1tvVrzmEgx) |
+| `contact_detect.py` | [物体碰撞接触检测](https://www.bilibili.com/video/BV12WfFYYE4T) |
+
+---
+
+## Project Structure
+
+```
+mujoco-learning/
+├── examples/                    # Main example scripts
+│   ├── control/                 # Joint/EE pose control, MPC
+│   ├── dynamics/                # Torque, wrench sensing
+│   ├── kinematics/              # FK/IK, null space motion
+│   ├── perception/              # AprilTag, camera, sensors
+│   ├── planning/                # RRT, TOPPRA trajectory
+│   ├── rl/                      # PPO reinforcement learning
+│   ├── robots/panda/            # Panda-specific demos
+│   ├── robots/so100/            # SO-ARM100 examples
+│   ├── scene_setup/             # Environment construction
+│   └── utilities/               # Workspace analysis, misc tools
+├── hardware/                    # Real robot interfaces (joystick)
+├── tests/                       # Unit tests and debug scripts
+├── conversions/                 # Model conversion utilities  
+├── src/                         # Shared modules (mujoco_viewer, kinematics, utils...)
+│   ├── mujoco_viewer.py
+│   ├── kdl_kinematic.py
+│   ├── pinocchio_kinematic.py
+│   └── utils.py
+├── model/                       # Robot models (MJCF/URDF)
+├── scripts/                     # Build/install scripts
+│   ├── install_pinocchio.sh
+│   └── install_pykdl.sh
+├── pyproject.toml
+├── uv.lock
+└── yaml.py                      # Config helpers
+```
+---
+
+## Environment Setup Notes (aarch64/ARM64)
+
+本项目的虚拟环境在激活时会自动配置以下环境变量：
+
+```bash
+source .venv/bin/activate
+# 自动设置:
+# - QT_QPA_PLATFORM=offscreen (pyqtgraph 无头模式运行)  
+# - LD_LIBRARY_PATH (PyKDL / Pinocchio 动态库路径)
+```
+
+**使用方式：**
+```bash
+# 每次使用时先激活环境（环境变量会自动加载）
+source .venv/bin/activate
+
+# 然后直接运行脚本
+python examples/kinematics/ik_kdl_panda.py
+python examples/control/pbvs_mpc.py   # pyqtgraph 可在无头模式工作
+```
+
+---

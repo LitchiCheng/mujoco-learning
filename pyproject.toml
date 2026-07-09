@@ -43,6 +43,7 @@ dependencies = [
     "torch>=2.0.0",
     "typing-extensions",
     "urdf-parser-py",
+    "pyqtgraph",
     "kdl-parser-jvytee @ git+https://github.com/jvytee/kdl_parser.git",
 ]
 
